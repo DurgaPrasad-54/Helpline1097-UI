@@ -39,10 +39,13 @@ export class OutboundReAllocationService {
     private _getRolesURL: string = this._baseurl + 'user/getRolesByProviderID';
     private _getReallocationDataURL: string = this._baseurl + 'call/outboundCallCount';
     private _getEverwellReallocationDataURL: string = this._baseurl + 'everwellCall/outboundCallCount';
+    private getGrievanceReallocationDataURL: string = this._baseurl + 'allocatedGrievanceRecordsCount';
     private _getoutboundCallListURL: string = this._baseurl + 'call/outboundCallList';
     private moveToBinURL: string = this._baseurl + 'call/resetOutboundCall';
-    private everwellMoveToBinURL: string = this._baseurl + 'everwellCall/resetOutboundCall';    
+    private everwellMoveToBinURL: string = this._baseurl + 'everwellCall/resetOutboundCall';   
+    private grievanceMoveToBinURL: string = this._baseurl + 'moveToBin'; 
     private _getEverwelloutboundCallListURL: string = this._baseurl + 'everwellCall/outboundCallList';
+    private _getGrievanceoutboundCallListURL: string = this._baseurl + 'greivance/outboundCallList';
     private getEverwellFeedBackDetailsURL: string = this._baseurl + 'everwellCall/getEverwellfeedbackDetails';
     private getEverwellGuidelinesURL: string = this._1097baseUrl + 'fetchEverwellGuidelines';
     private getbenDetailsOnPhnNoURL: string = this._baseurl + 'everwellCall/outboundCallListWithMobileNumber';
@@ -77,6 +80,12 @@ export class OutboundReAllocationService {
             .catch(this.handleError);
     }
 
+    getGrievanceReallocationCalls(data) {
+        return this._http.post(this.getGrievanceReallocationDataURL, data)
+            .map(this.extractData)
+            .catch(this.handleError);
+    }
+
     getOutboundCallList(data) {
         return this._http.post(this._getoutboundCallListURL, data)
             .map(this.extractDataSuccess)
@@ -85,6 +94,12 @@ export class OutboundReAllocationService {
 
     getEverwellOutboundCallList(data) {
         return this._http.post(this._getEverwelloutboundCallListURL, data)
+            .map(this.extractDataSuccess)
+            .catch(this.handleError);
+    }
+
+    getGrievanceOutboundCallList(data) {
+        return this._http.post(this._getGrievanceoutboundCallListURL, data)
             .map(this.extractDataSuccess)
             .catch(this.handleError);
     }
@@ -109,6 +124,12 @@ export class OutboundReAllocationService {
 
     everwellMoveToBin(data) {
         return this._http.post(this.everwellMoveToBinURL, data)
+            .map(this.extractData)
+            .catch(this.handleError);
+    }
+
+    grievanceMoveToBin(data) {
+        return this._http.post(this.grievanceMoveToBinURL, data)
             .map(this.extractData)
             .catch(this.handleError);
     }

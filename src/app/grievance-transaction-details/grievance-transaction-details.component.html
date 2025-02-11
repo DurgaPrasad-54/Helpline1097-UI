@@ -1,0 +1,57 @@
+<div class="headerDiv">
+  <md-icon class="mat-icon material-icons pull-right cursorPointer p-t-2 f-c-w closeIcon" mdTooltip="{{currentLanguageSet?.close}}" role="img" aria-hidden="true"
+    (click)="dialogRef.close()">
+    clear
+  </md-icon>
+  <h4 class="popupHeader">{{currentLanguageSet?.previousTransactionDetails}}</h4>
+</div>
+<md-dialog-content>
+<div class="row">
+    <div class="col-xs-12 col-sm-12">
+      <div class="table-responsive m-t-10">
+        <table class="table table-responsive table-striped" [md2Data]="transactionList" #md2="md2DataTable" [rowsPerPage]="3" aria-describedby="transactionDetails">
+          <thead>
+            <tr>
+              <th style="width: 2%;" id="sno">{{currentLanguageSet?.sno}}</th>
+              <th style="width: 5%;" id="beneficiaryID">{{currentLanguageSet?.date}}</th>
+              <th style="width: 12%;" id="fullname">{{currentLanguageSet?.comments}}</th>
+             
+              <th style="width: 3%;" id="status">{{currentLanguageSet?.status}}</th>
+              <th style="width: 5%;" id="actionTakenBy">{{currentLanguageSet?.actionTakenBy}}</th>
+              <th style="width: 5%;" id="file">{{currentLanguageSet?.file}}</th> 
+            </tr>
+          </thead>
+         
+          <tbody *ngIf="md2.data?.length==0">
+            <tr>
+              <td class="t-a-c record-not-found" colspan="6">
+                {{currentLanguageSet?.noRecordsFound}}
+              </td>
+            </tr>
+          </tbody>
+          <tbody *ngIf="md2.data?.length>0">
+
+            <tr  *ngFor="let transactionHistory of md2.data;let i=index " style="cursor: pointer">
+
+              <td>{{(md2.activePage-1)*(md2.rowsPerPage)+i+1}}</td>
+              <td>{{transactionHistory.updatedAt}}</td>
+              <td>{{transactionHistory.comment}}</td>
+              <td>{{transactionHistory.status}}</td>
+              <td>{{transactionHistory.actionTakenBy}}</td>
+              <td>
+                <md-icon class="mat-icon material-icons cursorPointer" role="img" mdTooltip="{{currentLanguageSet?.viewFile}}" aria-hidden="true" style="color:gray" (click)="viewTransactionFile(transactionHistory)">visibility</md-icon>
+              </td>
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr>
+              <td colspan="6">
+                <md2-pagination></md2-pagination>
+              </td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+    </div>
+  </div>
+</md-dialog-content>

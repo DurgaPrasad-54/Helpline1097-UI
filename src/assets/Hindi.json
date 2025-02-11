@@ -729,7 +729,24 @@
       "duplicateMobileNumber":"डुप्लीकेट मोबाइल संख्या",
       "errorWhileFetchingReport":"Error while fetching report",
       "downloadReport": "विवरण डाउनलोड करें",
-      "backToCo": "Back To CO"
+      "backToCo": "Back To CO",
+      "consentCaptured": "Consent Captured",
+      "grievanceOutboundCallAllocation": "Grievance Outbound Call Allocation",
+      "grievanceOutboundCallReAllocation": "Grievance Outbound Call Re-Allocation",
+      "grievanceOutboundWorklist": "Grievance Outbound Worklist",
+      "complaintID": "Complaint ID",
+      "subjectOfComplaint": "Subject of Complaint",
+      "severety": "Severity",
+      "complaintDetails": "Complaint Details",
+      "complaint": "Complaint",
+      "complaintResolution": "Complaint Resolution",
+      "viewComplaintDescription": "View Complaint Description",
+      "complaintDescription": "Complaint Description",
+      "previousTransactionDetails": "Previous Transaction Details",
+      "actionTakenBy": "Action Taken By",
+      "file": "File",
+      "viewFile": "View File",
+      "fileIsNotAvailable" : "File is not available"
       
 
 

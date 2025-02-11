@@ -38,6 +38,7 @@ export class OutboundSearchRecordService {
       //_baseurl='http://localhost:8080/';
     private _outboundCalls: string = this._baseurl + 'call/outboundCallList';
     private _outboundCallsCount: string = this._baseurl + 'call/outboundCallCount';
+    private _grievanceoutboundCallsCount: string = this._baseurl + 'unallocatedGrievanceCount';
     private _everwelloutboundCallsCount: string = this._baseurl + 'everwellCall/outboundCallCount';
     private _allocateurl: string = this._baseurl + '';
     private _outboundEverwellCalls: string = this._baseurl + 'everwellCall/outboundCallList';
@@ -103,6 +104,16 @@ export class OutboundSearchRecordService {
         }
         return this._httpInterceptor.post(this._everwelloutboundCallsCount, obj).map(this.extractData).catch(this.handleError);
     }
+
+    getUnallocatedGrievanceCallsCount(serviceID: any, startDate?: any, endDate?: any, language?: any) {
+        const obj = {};
+        obj['providerServiceMapID'] = serviceID;
+        obj['filterStartDate'] = startDate;
+        obj['filterEndDate'] = endDate;
+        obj['preferredLanguageName'] = language;
+        return this._httpInterceptor.post(this._grievanceoutboundCallsCount, obj).map(this.extractData).catch(this.handleError);
+    }
+
     getSubRecords(data: any, key: any, val: any) {
         return data.json().filter(data => data.key === val);
     }

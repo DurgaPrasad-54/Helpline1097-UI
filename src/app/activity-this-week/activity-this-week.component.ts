@@ -131,6 +131,10 @@ export class ActivityThisWeekComponent implements OnInit {
   }
 
 agentLoginStatus(){
+  //  this.getCommonData.current_campaign = 'OUTBOUND';
+  //   sessionStorage.setItem("current_campaign", 'OUTBOUND');
+  //   this.router.navigate(['/MultiRoleScreenComponent/OutboundCallWorklistsComponent']);
+    
   this.callService.switchToOutbound(this.getCommonData.cZentrixAgentID).subscribe((res) => {
     // if(res.errorMessage.toLowerCase().contains("already in MANUAL mode")){
     //   this.router.navigate(['/MultiRoleScreenComponent/OutboundCallWorklistsComponent']);

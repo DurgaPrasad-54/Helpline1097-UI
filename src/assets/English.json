@@ -385,7 +385,7 @@
       "enterTotalNewRecords": "Enter Total New Records",
       "enterValid(min:8,max:12,alphanumeric,1SpecialCharacter,1Uppercase)": "Enter valid(min:8,max:12,alphanumeric,1 special character,1 UpperCase)",
       "stateServicesMapping": "State Services Mapping",
-      "outboundWorkList": "Outbound Work List",
+      "outboundWorkList": "Outbound Worklist",
       "firstName": "First Name",
       "deleteRow": "Delete row",
       "emailStatus": "Email Status",
@@ -558,7 +558,7 @@
       "blacklistANumber": "Blacklist a Number",
       "enterMiddlename": "Enter MiddleName",
       "value": "Value",
-      "everwellOutboundWorkList": "Everwell Outbound Work List",
+      "everwellOutboundWorkList": "Everwell Outbound Worklist",
       "serviceDesc": "Service Desc",
       "weatherWarnings": "Weather Warnings",
       "czentrix": "Czentrix",
@@ -730,7 +730,25 @@
       "uploadFileOrEmailSizeLimit":"Upload File/Email(Size limit",
       "duplicateMobileNumber":"Duplicate Mobile Number",
       "errorWhileFetchingReport":"Error while fetching report",
-      "downloadReport": "Download Report"
+      "downloadReport": "Download Report",
+      "consentCaptured": "Consent Captured",
+      "grievanceOutboundCallAllocation": "Grievance Outbound Call Allocation",
+      "grievanceOutboundCallReAllocation": "Grievance Outbound Call Re-Allocation",
+      "grievanceOutboundWorklist": "Grievance Outbound Worklist",
+      "complaintID": "Complaint ID",
+      "subjectOfComplaint": "Subject of Complaint",
+      "severety": "Severity",
+      "complaintDetails": "Complaint Details",
+      "complaint": "Complaint",
+      "complaintResolution": "Complaint Resolution",
+      "viewComplaintDescription": "View Complaint Description",
+      "complaintDescription": "Complaint Description",
+      "previousTransactionDetails": "Previous Transaction Details",
+      "actionTakenBy": "Action Taken By",
+      "file": "File",
+      "viewFile": "View File",
+      "fileIsNotAvailable" : "File is not available"
+
 
 
 

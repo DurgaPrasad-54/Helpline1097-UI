@@ -96,6 +96,7 @@ export class CoFeedbackServicesComponent implements OnInit {
   subscription: Subscription;
   currentLanguageSet: any;
   instituteValue: any;
+  beneficiaryConsent:any=false;
   constructor(
     private _userBeneficiaryData: UserBeneficiaryData,
     private _locationService: LocationService,
@@ -168,6 +169,7 @@ export class CoFeedbackServicesComponent implements OnInit {
       this.tempFlag = true;
       this.showTableCondition = true;
       this.showFormCondition = false;
+      this.beneficiaryConsent = false;
     }
   }
   showForm() {
@@ -177,6 +179,7 @@ export class CoFeedbackServicesComponent implements OnInit {
     }
     this.showFormCondition = true;
     this.showTableCondition = false;
+    this.beneficiaryConsent = false;
   }
 
   showTable() {
@@ -188,6 +191,7 @@ export class CoFeedbackServicesComponent implements OnInit {
     this.minLength = 1;
     this.maxLength = 30;
     this.filteredFeedbackList= this.data;
+    this.beneficiaryConsent = false;
   }
 
   GetServiceTypes() {
@@ -331,7 +335,8 @@ export class CoFeedbackServicesComponent implements OnInit {
       'userID': this._savedData.uid,
       'createdBy': this.userName,
       'benCallID': this._savedData.callData.benCallID,
-      '1097ServiceID': this.serviceID
+      '1097ServiceID': this.serviceID,
+      'beneficiaryConsent': this.beneficiaryConsent
     }];
     this._coFeedbackService.createFeedback(feedbackObj)
       .subscribe((response) => {
@@ -339,6 +344,7 @@ export class CoFeedbackServicesComponent implements OnInit {
         jQuery('#feedbackForm').trigger("reset");
         this.showBeneficiaryFeedbackList();
         this.feedbackServiceProvided.emit();
+        this.beneficiaryConsent = false;
 
       }, (err) => {
         this.selected_doi = undefined;
@@ -433,6 +439,7 @@ export class CoFeedbackServicesComponent implements OnInit {
   ngOnDestroy() {
     // unsubscribe to ensure no memory leaks
     this.subscription.unsubscribe();
+    this.showFormCondition = false;
   }
 
   minLength: number = 1;

@@ -236,6 +236,14 @@ import { searchIdDirective } from './directives/searchid/searchId.directive';
 import { SmsTemplateDirective } from './directives/smsTemplate/smsTemplate.directive';
 import { textareaDirectiveWithCopyPaste } from './directives/textarea/textareaDirectiveWithCopyPaste';
 import { SmsTemplateDirectiveWithCopyPaste } from './directives/smsTemplate/smsTemplateWithcopypaste.directive';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { GrievanceOutboundCallAllocationComponent } from './grievance-outbound-call-allocation/grievance-outbound-call-allocation.component';
+import { GrievanceOutboundCallReallocationComponent } from './grievance-outbound-call-reallocation/grievance-outbound-call-reallocation.component';
+import { GrievanceOutboundCallAllocateRecordsComponent } from './grievance-outbound-call-allocate-records/grievance-outbound-call-allocate-records.component';
+import { GrievanceOutboundWorklistComponent } from './grievance-outbound-worklist/grievance-outbound-worklist.component';
+import { GrievanceResolutionDetailsComponent } from './grievance-resolution-details/grievance-resolution-details.component';
+import {ComplaintDescriptionDialogComponent} from './complaint-description-dialog/complaint-description-dialog.component';
+import {GrievanceTransactionDetailsComponent} from './grievance-transaction-details/grievance-transaction-details.component';
 // import { SetLanguageComponent } from './set-language.component';
 //for text mask
 // import { TextMaskModule } from 'angular2-text-mask';
@@ -295,7 +303,14 @@ import { SmsTemplateDirectiveWithCopyPaste } from './directives/smsTemplate/smsT
     QuestionnaireDirective,
     InputAreaDirective,
     AnswerDirective,
-    textareaDirectiveWithCopyPaste
+    textareaDirectiveWithCopyPaste,
+    GrievanceOutboundCallAllocationComponent,
+    GrievanceOutboundCallReallocationComponent,
+    GrievanceOutboundCallAllocateRecordsComponent,
+    GrievanceOutboundWorklistComponent,
+    GrievanceResolutionDetailsComponent,
+    ComplaintDescriptionDialogComponent,
+    GrievanceTransactionDetailsComponent
   ],
   imports: [
     BrowserModule,
@@ -312,6 +327,7 @@ import { SmsTemplateDirectiveWithCopyPaste } from './directives/smsTemplate/smsT
     CustomFormsModule,
     ValidationMessagesModule,
     BrowserAnimationsModule,
+    MatSlideToggleModule,
     MdCardModule,
     ToasterModule,
     MdTabsModule,
@@ -406,6 +422,8 @@ import { SmsTemplateDirectiveWithCopyPaste } from './directives/smsTemplate/smsT
     AgentForceLogoutComponent,
     CommonSmsDialogComponent,
     ViewVersionDetailsComponent,
+    ComplaintDescriptionDialogComponent,
+    GrievanceTransactionDetailsComponent,
     SupportActionModal],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: [loginService, ClearFormService, dataService, DashboardHttpServices, SPService, RegisterService,

@@ -29,6 +29,12 @@
                   <li style="cursor: pointer" (click)='show("3")'>
                     <a>{{currentLanguageSet?.blacklistANumber}}</a>
                   </li>
+                  <li style="cursor: pointer" (click)='show("29")'>
+                    <a>{{currentLanguageSet?.grievanceOutboundCallAllocation}}</a>
+                  </li>
+                  <li style="cursor: pointer" (click)='show("30")'>
+                    <a>{{currentLanguageSet?.grievanceOutboundCallReAllocation}}</a>
+                  </li>
                   
                   <li style="cursor: pointer" (click)='show("12")'>
                     <a>{{currentLanguageSet?.outboundCallList}}</a>
@@ -165,6 +171,8 @@
           <everwell-allocate *ngSwitchCase="26"></everwell-allocate>
           <everwell-reallocate *ngSwitchCase="27"></everwell-reallocate>
           <app-everwell-guidelines-upload *ngSwitchCase="28"></app-everwell-guidelines-upload>
+          <app-grievance-outbound-call-allocation *ngSwitchCase="29"></app-grievance-outbound-call-allocation>
+          <app-grievance-outbound-call-reallocation *ngSwitchCase="30"></app-grievance-outbound-call-reallocation>
          
         </div>
       </div>

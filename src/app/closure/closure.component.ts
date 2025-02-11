@@ -99,6 +99,7 @@ export class ClosureComponent implements OnInit {
   subServiceTypes: any = [];
   requestedServiceID: number;
   isEverwell: string;
+  isGrievance: string;
   everwellBeneficiarySelected: boolean;
   currentLanguageSet: any;
   preferredDateTime: any;
@@ -132,6 +133,7 @@ export class ClosureComponent implements OnInit {
       this.setBenRegID(response);
     });
     this.isEverwell = sessionStorage.getItem("isEverwellCall");
+    this.isGrievance= sessionStorage.getItem("isGrievanceCall");
     if (this.isEverwell === "yes") {
       this.saved_data.everwellBeneficiarySelected.subscribe((response) => {
         this.setEverwellBenRegID(response);
@@ -539,7 +541,7 @@ export class ClosureComponent implements OnInit {
       this.current_campaign !== null &&
       this.current_campaign.toUpperCase() === "OUTBOUND"
     ) {
-      if (this.isEverwell !== "yes") {
+      if (this.isEverwell !== "yes" && this.isGrievance !== "yes") {
         const outBoundCallID = this.saved_data.outBoundCallID
           ? this.saved_data.outBoundCallID
           : null;
@@ -551,9 +553,7 @@ export class ClosureComponent implements OnInit {
             this.message.alert(err.status, "error");
           }
         );
-      } else {
-        // let familyMembersArray=[];
-        if (
+      } else if (
           this.saved_data.everwellFeedbackCallData != undefined &&
           this.saved_data.everwellFeedbackCallData != null &&
           this.saved_data.everwellFeedbackCallData.length > 0
@@ -585,13 +585,38 @@ export class ClosureComponent implements OnInit {
                 this.message.alert(err.status, "error");
               }
             );
-        }
+        
         // for (let familyMember in familyMembersArray)   {
         // let outboundObj = {};
 
         // this.outboundArry.push(outboundObj);
         // }
         // this._callServices.closeEverwellOutBoundCall(this.outboundArry).subscribe((response) => {
+      } else  if(this.isGrievance == "yes") {
+        let grievanceData = this.saved_data.outboundGrievanceData;
+        let outboundObj = {};
+          outboundObj["complaintID"] = grievanceData.complaintID;
+          outboundObj["assignedUserID"] = this.saved_data.uid;
+          outboundObj["isCompleted"] = true;
+          outboundObj["beneficiaryRegId"] = grievanceData.beneficiaryRegID;
+          outboundObj["callTypeID"] = values.callTypeID;
+          outboundObj["benCallID"] = values.benCallID;
+          outboundObj["callId"] = this.saved_data.callID;
+          outboundObj["providerServiceMapId"] = values.providerServiceMapID;
+          outboundObj["requestedServiceID"] = null;
+          outboundObj["createdBy"] = this.saved_data.uname;
+
+
+        this._callServices
+          .closeGrievanceOutBoundCall(outboundObj)
+          .subscribe(
+            (response) => {
+              this.closeOutboundCall(btnType, values);
+            },
+            (err) => {
+              this.message.alert(err.status, "error");
+            }
+          );
       }
     } else {
       if (btnType === "submitClose") {
@@ -724,6 +749,7 @@ export class ClosureComponent implements OnInit {
           );
           if (btnType === "submitClose") {
             this.saved_data.feedbackData = undefined;
+            this.saved_data.outboundGrievanceData = undefined;
             this.callClosed.emit(this.current_campaign);
             /* below lines are commented to use old close call API */
             // this._callServices.disconnectCall(this.saved_data.cZentrixAgentID).subscribe((res) => {

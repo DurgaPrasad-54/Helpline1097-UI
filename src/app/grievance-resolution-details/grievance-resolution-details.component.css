@@ -1,0 +1,21 @@
+.mat_icon_blue{
+    background-color: white;
+    min-width: 0;
+    border-radius: 50%;
+    border-color: unset !important;
+    color:#0277bd ;
+    border: unset;
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    left: 20px;
+    bottom: 50px;
+    z-index: 3;
+  }
+
+  .font-history-label {
+    color: #ff9900 !important;
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: initial;
+  }

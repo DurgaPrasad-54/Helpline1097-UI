@@ -1,0 +1,13 @@
+<div class="headerDiv">
+  <md-icon class="mat-icon material-icons pull-right cursorPointer p-t-2 f-c-w closeIcon" mdTooltip="{{currentLanguageSet?.close}}" role="img" aria-hidden="true"
+    (click)="dialogRef.close()">
+    clear
+  </md-icon>
+  <h4 class="popupHeader">{{currentLanguageSet?.complaintDescription}}</h4>
+</div>
+<md-dialog-content>
+  <md-card appearance="outlined">
+    <md-card-title><b>{{currentLanguageSet?.complaintID}} : {{complaintData?.complaintID}}</b></md-card-title>
+    <md-card-content>{{complaintData?.complaint}}</md-card-content>
+  </md-card>
+</md-dialog-content>

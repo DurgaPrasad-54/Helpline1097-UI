@@ -181,6 +181,7 @@ export class MultiRoleScreenComponent implements OnInit {
         (response) => {
           sessionStorage.removeItem('isOnCall');
           sessionStorage.removeItem('isEverwellCall');
+          sessionStorage.removeItem("isGrievanceCall");
           sessionStorage.removeItem('apiman_key');   
           sessionStorage.removeItem("setLanguage");
           this.dataSettingService.appLanguage="English";
@@ -192,6 +193,7 @@ export class MultiRoleScreenComponent implements OnInit {
         (err) => {
           sessionStorage.removeItem('isOnCall');
           sessionStorage.removeItem('isEverwellCall');
+          sessionStorage.removeItem("isGrievanceCall");
           sessionStorage.removeItem('apiman_key');   
           sessionStorage.removeItem("setLanguage");
           this.dataSettingService.appLanguage="English"; 

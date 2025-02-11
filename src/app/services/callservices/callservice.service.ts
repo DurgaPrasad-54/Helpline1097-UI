@@ -54,6 +54,7 @@ export class CallServices {
   _getBenOutboundListUrl = this._commonURL + "call/getBenRequestedOutboundCall";
   _servicetypesurl = this._commonURL + "service/servicetypes";
   _outEverwellbouncClose_url = this._commonURL + 'everwellCall/completeOutboundCall';
+  grievanceOutboundCallClosureUrl = this._commonURL + 'grievanceCall/completeOutboundCall';
   _postEverwellFeedback = this._commonURL + 'everwellCall/saveFeedback';
   getWrapupTime = this._commonURL +  'user/role/';
   onceOutbound: boolean = false;
@@ -94,6 +95,10 @@ export class CallServices {
 
   closeEverwellOutBoundCall(clsoutboundcalldata:any) {   
     return this._httpInterceptor.postEverwell(this._outEverwellbouncClose_url, clsoutboundcalldata).map(this.extractData).catch(this.handleCustomError);
+  }
+
+  closeGrievanceOutBoundCall(outboundCallData:any) {   
+    return this._httpInterceptor.post(this.grievanceOutboundCallClosureUrl, outboundCallData).map(this.extractData).catch(this.handleCustomError);
   }
   getCallSummary(values: any) {
     // debugger

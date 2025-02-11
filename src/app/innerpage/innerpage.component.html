@@ -88,6 +88,16 @@
                 <li *ngIf="everwellDistrict">{{everwellDistrict}}</li>
                 <li *ngIf="everwellGender">{{everwellGender}}</li>   
               </ul>
+
+              <ul *ngIf="grievanceSelectedBenData" class="list-unstyled list-inline pull-left  p-a-0 m-b-3 ">
+
+                <li class="m-l-lg-20 f-s-16 f-c-0 font-Medium">{{currentLanguageSet?.benId}} : {{grievanceSelectedBenData?.beneficiaryID}}</li>
+                <li>{{grievanceSelectedBenData?.firstName + " " + grievanceSelectedBenData?.lastName}}</li>
+                <li>{{grievanceSelectedBenData?.age}}</li>
+                <li>{{grievanceSelectedBenData?.state}}</li>
+                <li>{{grievanceSelectedBenData?.district}}</li>
+                <li>{{grievanceSelectedBenData?.gender}}</li>   
+              </ul>
               <span *ngIf="ticks > 0 && wrapupTime" class="pull-right">{{currentLanguageSet?.timeRemaining}}:
                 <strong>{{ticks}}</strong>
               </span>
