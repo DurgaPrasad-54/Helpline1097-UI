@@ -35,6 +35,7 @@ import { ToasterService, ToasterConfig } from "angular2-toaster";
 import { Subscription } from "rxjs/Subscription";
 import { HttpServices } from "../services/http-services/http_services.service";
 import { SetLanguageComponent } from "app/set-language.component";
+import { sessionStorageService } from "app/services/sessionStorageService/session-storage.service";
 
 @Component({
   selector: "dashboard-component",
@@ -75,6 +76,7 @@ export class dashboardContentClass implements OnInit {
   constructor(
     public dataSettingService: dataService,
     public router: Router,
+    private sessionstorage:sessionStorageService,
     public activeRoute: ActivatedRoute,
     private configService: ConfigService,
     public sanitizer: DomSanitizer,
@@ -166,7 +168,7 @@ export class dashboardContentClass implements OnInit {
     }
   }
   setCampaign() {
-    sessionStorage.removeItem("current_campaign");
+    this.sessionstorage.removeItem("current_campaign");
     this.current_role = this.dataSettingService.current_role.RoleName;
     let current_roleID = this.dataSettingService.current_role.RoleID;
     this.dataSettingService.inboundOutbound$.subscribe((response) => {
@@ -188,7 +190,7 @@ export class dashboardContentClass implements OnInit {
                 this.outboundCall = true;
               } else {
                 this.dataSettingService.current_campaign = "INBOUND";
-                sessionStorage.setItem("current_campaign", "INBOUND");
+                this.sessionstorage.setItem("current_campaign", "INBOUND");
                 this.dataSettingService.isOutBoundSelected = false;
                 this.inOutBound = "1";
                 this.inboundCall = true;
@@ -199,7 +201,7 @@ export class dashboardContentClass implements OnInit {
               role.inbound === true
             ) {
               this.dataSettingService.current_campaign = "INBOUND";
-              sessionStorage.setItem("current_campaign", "INBOUND");
+              this.sessionstorage.setItem("current_campaign", "INBOUND");
               this.dataSettingService.isOutBoundSelected = false;
               this.dataSettingService.outboundSelectedManual = false;
               this.dataSettingService.onlyOutboundAvailable = false;
@@ -217,7 +219,7 @@ export class dashboardContentClass implements OnInit {
                 .switchToOutbound(this.dataSettingService.cZentrixAgentID)
                 .subscribe(
                   (response) => {
-                    sessionStorage.setItem("current_campaign", "OUTBOUND");
+                    this.sessionstorage.setItem("current_campaign", "OUTBOUND");
                     this.dataSettingService.isOutBoundSelected = true;
                     console.log("outbound");
                   },
@@ -229,7 +231,7 @@ export class dashboardContentClass implements OnInit {
                     ) {
                       this.dataSettingService.isOutBoundSelected = true;
                     }
-                    sessionStorage.setItem("current_campaign", "OUTBOUND");
+                    this.sessionstorage.setItem("current_campaign", "OUTBOUND");
                   }
                 );
               if (
@@ -250,7 +252,7 @@ export class dashboardContentClass implements OnInit {
     this.data = this.dataSettingService.Userdata;
     this.current_service = this.dataSettingService.current_service.serviceName;
     this.current_role = this.dataSettingService.current_role.RoleName;
-    let campaign = sessionStorage.getItem("current_campaign");
+    let campaign = this.sessionstorage.getItem("current_campaign");
     // if(campaign != null && campaign != undefined && campaign !== "OUTBOUND"){
     this.addListener();
     this.listenCall = this.renderer.listenGlobal(
@@ -302,10 +304,10 @@ export class dashboardContentClass implements OnInit {
       this.eventSpiltData[2] !== null &&
       this.eventSpiltData[2] !== ""
     ) {
-      if (!sessionStorage.getItem("session_id")) {
+      if (!this.sessionstorage.getItem("session_id")) {
         this.handleEvent();
       } else if (
-        sessionStorage.getItem("session_id") !== this.eventSpiltData[2]
+        this.sessionstorage.getItem("session_id") !== this.eventSpiltData[2]
       ) {
         // If session id is different from previous session id then allow the call to drop
         this.handleEvent();
@@ -318,7 +320,7 @@ export class dashboardContentClass implements OnInit {
 
   handleEvent() {
     if (this.eventSpiltData.length > 2) {
-      sessionStorage.setItem("isOnCall", "yes");
+      this.sessionstorage.setItem("isOnCall", "yes");
       const mobileNumber = this.eventSpiltData[1].replace(/\D/g, "");
       const checkNumber = /^\d+$/;
       const sessionVar = /^\d{10}\.\d{10}$/;
@@ -330,9 +332,9 @@ export class dashboardContentClass implements OnInit {
         checkCallType.test(this.eventSpiltData[3])
       ) {
         this.dataSettingService.setUniqueCallIDForInBound = true;
-        sessionStorage.setItem("CLI", this.eventSpiltData[1]);
-        sessionStorage.setItem("session_id", this.eventSpiltData[2]);
-        sessionStorage.setItem("callCategory", this.eventSpiltData[3]);
+        this.sessionstorage.setItem("CLI", this.eventSpiltData[1]);
+        this.sessionstorage.setItem("session_id", this.eventSpiltData[2]);
+        this.sessionstorage.setItem("callCategory", this.eventSpiltData[3]);
         this.router.navigate([
           "/MultiRoleScreenComponent/RedirectToInnerpageComponent",
         ]);
@@ -374,7 +376,7 @@ export class dashboardContentClass implements OnInit {
                   this.dataSettingService.current_campaign = "INBOUND";
                   this.dataSettingService.isOutBoundSelected = false;
                   this.dataSettingService.outboundSelectedManual = false;
-                  sessionStorage.setItem("current_campaign", "INBOUND");
+                  this.sessionstorage.setItem("current_campaign", "INBOUND");
                 },
                 (err) => {
                   this.message.alert(err.errorMessage, "error");
@@ -397,7 +399,7 @@ export class dashboardContentClass implements OnInit {
                   this.dataSettingService.current_campaign = "OUTBOUND";
                   this.dataSettingService.isOutBoundSelected = true;
                   this.dataSettingService.outboundSelectedManual = true;
-                  sessionStorage.setItem("current_campaign", "OUTBOUND");
+                  this.sessionstorage.setItem("current_campaign", "OUTBOUND");
                 },
                 (err) => {
                   this.message.alert(err.errorMessage, "error");

@@ -30,6 +30,7 @@ import 'rxjs/add/operator/map';
 import { InterceptedHttp } from './../../http.interceptor';
 import { AuthorizationWrapper } from './../../authorization.wrapper';
 import { ActivatedRoute, Router, Params } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable()
 export class loginService {
@@ -47,7 +48,8 @@ export class loginService {
   transactionId: any;
   constructor(
     private _http: InterceptedHttp,
-    private _config: ConfigService
+    private _config: ConfigService,
+    private http:HttpClient,
   ) { }
 
 
@@ -57,9 +59,9 @@ export class loginService {
       .catch(this.handleError);
   }
   public authenticateUser(uname: any, pwd: any, doLogout): Observable<any> {
-    return this._http.post(this._userAuthURL, { 'userName': uname, 'password': pwd, doLogout: doLogout })
-      .map(this.extractData)
-      .catch(this.handleError);
+    return this._http.post(this._userAuthURL, { 'userName': uname, 'password': pwd,withCredentials: true, doLogout: doLogout })
+       .map(this.extractData)
+       .catch(this.handleError);
   };
 
   public userLogOutFromPreviousSession(uname: any){
@@ -95,6 +97,7 @@ export class loginService {
 
 
   private extractData(response: Response) {
+    console.error("responce-service",response)
     if (response.json().data) {
       return response.json().data;
     } else {
@@ -112,6 +115,7 @@ export class loginService {
 
 
   private handleError(error: Response | any) {
+    console.error("handleError",error)
     return Observable.throw(error.json());
 
   };

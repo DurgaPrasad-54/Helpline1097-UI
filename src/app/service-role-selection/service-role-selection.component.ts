@@ -29,6 +29,7 @@ import { SocketService } from '../services/socketService/socket.service';
 import { CallServices } from 'app/services/callservices/callservice.service';
 import { SetLanguageComponent } from 'app/set-language.component';
 import { HttpServices } from 'app/services/http-services/http_services.service';
+import { sessionStorageService } from 'app/services/sessionStorageService/session-storage.service';
 
 @Component({
     selector: 'app-service-role-selection',
@@ -42,6 +43,7 @@ export class ServiceRoleSelectionComponent implements OnInit {
     constructor(
         public getCommonData: dataService,
         public router: Router,
+        private sessionstorage:sessionStorageService,
         private callService: CallServices,
         private listnerService: ListnerService, public socketService: SocketService,
         public httpServices:HttpServices

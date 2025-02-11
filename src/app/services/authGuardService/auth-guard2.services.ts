@@ -26,6 +26,7 @@ import { CanActivate, CanActivateChild, Router, ActivatedRoute, RouterStateSnaps
 import { SetLanguageComponent } from 'app/set-language.component';
 import { dataService } from '../dataService/data.service';
 import { HttpServices } from '../http-services/http_services.service';
+import { sessionStorageService } from '../sessionStorageService/session-storage.service';
 
 @Injectable()
 export class AuthGuard2 implements CanActivate {
@@ -33,6 +34,7 @@ export class AuthGuard2 implements CanActivate {
 
   constructor(
     private router: Router,
+    private sessionstorage:sessionStorageService,
     private route: ActivatedRoute, public dataSettingService: dataService,
     public httpServices:HttpServices) { }
 
@@ -52,8 +54,8 @@ export class AuthGuard2 implements CanActivate {
 		 }
 
   canActivate(route, state) {
-    var key = sessionStorage.getItem("isOnCall");
-    var key2 = sessionStorage.getItem("authen");
+    var key = this.sessionstorage.getItem("isOnCall");
+    var key2 = this.sessionstorage.getItem("authen");
     if (key == "yes") {
       return true;;
     }

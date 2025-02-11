@@ -244,6 +244,7 @@ import { GrievanceOutboundWorklistComponent } from './grievance-outbound-worklis
 import { GrievanceResolutionDetailsComponent } from './grievance-resolution-details/grievance-resolution-details.component';
 import {ComplaintDescriptionDialogComponent} from './complaint-description-dialog/complaint-description-dialog.component';
 import {GrievanceTransactionDetailsComponent} from './grievance-transaction-details/grievance-transaction-details.component';
+import { sessionStorageService } from './services/sessionStorageService/session-storage.service';
 // import { SetLanguageComponent } from './set-language.component';
 //for text mask
 // import { TextMaskModule } from 'angular2-text-mask';
@@ -429,7 +430,7 @@ import {GrievanceTransactionDetailsComponent} from './grievance-transaction-deta
   providers: [loginService, ClearFormService, dataService, DashboardHttpServices, SPService, RegisterService,
     UserService, LanguageService, RoleService, ServicemasterService, ScreenService, HttpServices, HttpClientModule,
     UserBeneficiaryData, LocationService, CoReferralService, CoFeedbackService, FeedbackTypes,
-    UpdateService, CallServices, ConfigService, Message, SupervisorCallTypeReportService, FeedbackService, AuthGuard, AuthGuard2, SocketService,
+    UpdateService, CallServices, ConfigService, Message, SupervisorCallTypeReportService, FeedbackService, AuthGuard, AuthGuard2, SocketService,sessionStorageService,
     CoCategoryService, UploadServiceService, OutboundSearchRecordService, OutboundWorklistService,
     OutboundCallAllocationService, NotificationService, ConfirmationDialogsService, LoaderService, ForceLogoutService,
     CommunicationService, OutboundService, ListnerService, AuthService, OutboundReAllocationService, ReloadService, ReportsService,

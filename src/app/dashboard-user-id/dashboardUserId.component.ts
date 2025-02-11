@@ -31,6 +31,7 @@ import { Subscription } from "rxjs/Subscription";
 import { CallServices } from "app/services/callservices/callservice.service";
 import { SetLanguageComponent } from "app/set-language.component";
 import { HttpServices } from "app/services/http-services/http_services.service";
+import { sessionStorageService } from "app/services/sessionStorageService/session-storage.service";
 
 @Component({
   selector: "dashboard-user-id",
@@ -45,6 +46,7 @@ export class DashboardUserIdComponent implements OnInit {
   constructor(
     public dataSettingService: dataService,
     public router: Router,
+    private sessionstorage:sessionStorageService,
     private callService: CallServices,
     private Czentrix: CzentrixServices,
     private message: ConfirmationDialogsService,
@@ -80,10 +82,10 @@ export class DashboardUserIdComponent implements OnInit {
 
           if (
             !this.dataSettingService.current_campaign &&
-            sessionStorage.getItem("current_campaign")
+            this.sessionstorage.getItem("current_campaign")
           ) {
             this.dataSettingService.current_campaign =
-              sessionStorage.getItem("current_campaign");
+              this.sessionstorage.getItem("current_campaign");
           }
           if (res.data.dialer_type) {
             if (res.data.dialer_type.toUpperCase() == "PROGRESSIVE") {
@@ -120,7 +122,7 @@ export class DashboardUserIdComponent implements OnInit {
                 .switchToOutbound(this.dataSettingService.cZentrixAgentID)
                 .subscribe(
                   (response) => {
-                    sessionStorage.setItem("current_campaign", "OUTBOUND");
+                    this.sessionstorage.setItem("current_campaign", "OUTBOUND");
                     this.callService.onceOutbound = true;
                     this.callService.onlyOutbound = false;
                     this.timerSubscription.unsubscribe();
@@ -128,7 +130,7 @@ export class DashboardUserIdComponent implements OnInit {
                   },
                   (err) => {
                     console.log("agent in not logged in");
-                    sessionStorage.setItem("current_campaign", "OUTBOUND");
+                    this.sessionstorage.setItem("current_campaign", "OUTBOUND");
                   }
                 );
             }
@@ -146,10 +148,10 @@ export class DashboardUserIdComponent implements OnInit {
             this.status.toUpperCase() === "INCALL" ||
             this.status.toUpperCase() === "CLOSURE"
           ) {
-            if (!sessionStorage.getItem("session_id")) {
+            if (!this.sessionstorage.getItem("session_id")) {
               this.routeToInnerPage(res);
             } else if (
-              sessionStorage.getItem("session_id") !== res.session_id
+              this.sessionstorage.getItem("session_id") !== res.session_id
             ) {
               // If session id is different from previous session id then allow the call to drop
               this.routeToInnerPage(res);
@@ -176,9 +178,9 @@ export class DashboardUserIdComponent implements OnInit {
       session_id !== "undefined" &&
       session_id !== ""
     ) {
-      sessionStorage.setItem("isOnCall", "yes");
-      sessionStorage.setItem("CLI", CLI);
-      sessionStorage.setItem("session_id", session_id);
+      this.sessionstorage.setItem("isOnCall", "yes");
+      this.sessionstorage.setItem("CLI", CLI);
+      this.sessionstorage.setItem("session_id", session_id);
       this.dataSettingService.setUniqueCallIDForInBound = true;
       this.router.navigate([
         "/MultiRoleScreenComponent/RedirectToInnerpageComponent",

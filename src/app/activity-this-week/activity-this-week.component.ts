@@ -31,6 +31,7 @@ import { ConfirmationDialogsService } from 'app/services/dialog/confirmation.ser
 import { Router } from '@angular/router';
 import { SetLanguageComponent } from 'app/set-language.component';
 import { HttpServices } from "../services/http-services/http_services.service";
+import { sessionStorageService } from 'app/services/sessionStorageService/session-storage.service';
 @Component({
   selector: 'activity-this-week',
   templateUrl: './activity-this-week.component.html',
@@ -46,7 +47,7 @@ export class ActivityThisWeekComponent implements OnInit {
   @Output() hide_component: EventEmitter<any> = new EventEmitter<any>();
   currentLanguageSet: any;
 
-  constructor(public getCommonData: dataService,
+  constructor(public getCommonData: dataService,private sessionstorage:sessionStorageService,
     public notificationService: NotificationService,private HttpServices:HttpServices,
     public dialog: MdDialog, private callService: CallServices, private message: ConfirmationDialogsService, public router: Router) {
 
@@ -140,7 +141,7 @@ agentLoginStatus(){
     //   this.router.navigate(['/MultiRoleScreenComponent/OutboundCallWorklistsComponent']);
     // }
     this.getCommonData.current_campaign = 'OUTBOUND';
-    sessionStorage.setItem("current_campaign", 'OUTBOUND');
+    this.sessionstorage.setItem("current_campaign", 'OUTBOUND');
     this.router.navigate(['/MultiRoleScreenComponent/OutboundCallWorklistsComponent']);
   }, (err) => {
     let errorText: string;

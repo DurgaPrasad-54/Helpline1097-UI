@@ -38,6 +38,7 @@ import { ConfirmationDialogsService } from './services/dialog/confirmation.servi
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/throw'
 import { observeOn } from 'rxjs/operator/observeOn';
+import { sessionStorageService } from './services/sessionStorageService/session-storage.service';
 
 @Injectable()
 export class InterceptedHttp extends Http {
@@ -47,13 +48,13 @@ export class InterceptedHttp extends Http {
     _count = 0;
 
 
-    constructor(backend: ConnectionBackend, defaultOptions: RequestOptions, private loaderService: LoaderService
+    constructor(backend: ConnectionBackend, private sessionstorage: sessionStorageService, defaultOptions: RequestOptions, private loaderService: LoaderService
         , private router: Router, private authService: AuthService, private message: ConfirmationDialogsService) {
         super(backend, defaultOptions);
     }
 
     get(url: string, options?: RequestOptionsArgs): Observable<Response> {
-         url = this.updateUrl(url);
+        url = this.updateUrl(url);
         if (this.networkCheck()) {
             this.showLoader();
             return super.get(url, this.getRequestOptionArgs(options)).catch(this.onCatch)
@@ -72,7 +73,7 @@ export class InterceptedHttp extends Http {
     }
 
     post(url: string, body: any, options?: RequestOptionsArgs): Observable<Response> {
-         url = this.updateUrl(url);
+        url = this.updateUrl(url);
         if (this.networkCheck()) {
             this.showLoader();
             return super.post(url, body, this.getRequestOptionArgs(options)).catch(this.onCatch).do((res: Response) => {
@@ -91,24 +92,24 @@ export class InterceptedHttp extends Http {
 
     postEverwell(url: string, body: any, options?: RequestOptionsArgs): Observable<Response> {
         url = this.updateUrl(url);
-       if (this.networkCheck()) {
-           this.showLoader();
-           return super.post(url, body, this.getRequestOptionArgs(options)).catch(this.onCatch).do((res: Response) => {
-               this.onSuccess(res);
-           }, (error: any) => {
-               this.onError(error);
-           })
-               .finally(() => {
-                //    this.onEnd();
-               });
-       }
-       else {
-           return Observable.empty();
-       }
-   }
+        if (this.networkCheck()) {
+            this.showLoader();
+            return super.post(url, body, this.getRequestOptionArgs(options)).catch(this.onCatch).do((res: Response) => {
+                this.onSuccess(res);
+            }, (error: any) => {
+                this.onError(error);
+            })
+                .finally(() => {
+                    //    this.onEnd();
+                });
+        }
+        else {
+            return Observable.empty();
+        }
+    }
 
     put(url: string, body: any, options?: RequestOptionsArgs): Observable<Response> {
-         url = this.updateUrl(url);
+        url = this.updateUrl(url);
         return super.put(url, body, this.getRequestOptionArgs(options)).catch(this.onCatch).do((res: Response) => {
             this.onSuccess(res);
         }, (error: any) => {
@@ -120,7 +121,7 @@ export class InterceptedHttp extends Http {
     }
 
     delete(url: string, options?: RequestOptionsArgs): Observable<Response> {
-         url = this.updateUrl(url);
+        url = this.updateUrl(url);
         return super.delete(url, this.getRequestOptionArgs(options)).catch(this.onCatch).do((res: Response) => {
             this.onSuccess(res);
         }, (error: any) => {
@@ -148,9 +149,31 @@ export class InterceptedHttp extends Http {
         if (options.headers == null) {
             options.headers = new Headers();
         }
+    
+    // let cvalue="";
+    // var nameEQ = 'Jwttoken' + "=";
+    // var ca = document.cookie.split(';');
+    // for (var i = 0; i < ca.length; i++) {
+    //   var c = ca[i];
+    //   while (c.charAt(0) == ' ') c = c.substring(1, c.length);
+    //   if (c.indexOf(nameEQ) == 0) cvalue= c.substring(nameEQ.length, c.length);
+    // }
+
+    //     console.error(" Jwt_token",cvalue);
+    //     let Jwt_token: any;
+    //     if (cvalue && cvalue!== null) {
+
+    //         Jwt_token = cvalue;
+            
+    //     }
+        let authToken:any;
+        if (sessionStorage.getItem('authToken')) {
+            authToken= sessionStorage.getItem('authToken');
+        }
         options.headers.append('Content-Type', 'application/json');
         options.headers.append('Access-Control-Allow-Origin', '*');
-        options.headers.append('Authorization', this.authService.getToken());
+        options.headers.append('Authorization', authToken);
+        // options.headers.append('Jwttoken', Jwt_token);
         return options;
     }
     private onEnd(): void {
@@ -161,24 +184,24 @@ export class InterceptedHttp extends Http {
             // this._count = 0;
             return response;
         }
-         else if (response.json().statusCode === 5002) {
-            if(response.json().errorMessage === 'You are already logged in,please confirm to logout from other device and login again') {
+        else if (response.json().statusCode === 5002) {
+            if (response.json().errorMessage === 'You are already logged in,please confirm to logout from other device and login again') {
                 this.message
                     .confirm('info', response.json().errorMessage)
                     .subscribe((confirmResponse) => {
-                      if (confirmResponse) {
-                        this.dologoutUsrFromPreSession(true);
-                      }
+                        if (confirmResponse) {
+                            this.dologoutUsrFromPreSession(true);
+                        }
                     });
-                }else {
-                    this.router.navigate(['']);
-                    if (this._count == 0) {
-                         this.message.alert(response.json().errorMessage, 'error');
-                         this._count = this._count + 1;
-                         }
+            } else {
+                this.router.navigate(['']);
+                if (this._count == 0) {
                     this.message.alert(response.json().errorMessage, 'error');
-                    this.authService.removeToken();
+                    this._count = this._count + 1;
                 }
+                this.message.alert(response.json().errorMessage, 'error');
+                this.authService.removeToken();
+            }
             // this.router.navigate(['']);
             // // if (this._count == 0) {
             // this.message.alert(response.json().errorMessage, 'error');
@@ -187,8 +210,8 @@ export class InterceptedHttp extends Http {
             // // this.message.alert(response.json().errorMessage, 'error');
             // this.authService.removeToken();
             return Observable.empty();
-        } 
-        else if(response.json().statusCode === 5006) {
+        }
+        else if (response.json().statusCode === 5006) {
             throw response.json();
         }
         else {
@@ -225,10 +248,10 @@ export class InterceptedHttp extends Http {
     }
     dologout: any;
     logoutUserFromPreviousSession = new BehaviorSubject(this.dologout);
-     logoutUserFromPreviousSessions$ =
-       this.logoutUserFromPreviousSession.asObservable();
+    logoutUserFromPreviousSessions$ =
+        this.logoutUserFromPreviousSession.asObservable();
     dologoutUsrFromPreSession(dologout) {
         this.dologout = dologout;
         this.logoutUserFromPreviousSession.next(dologout);
-      }
+    }
 }

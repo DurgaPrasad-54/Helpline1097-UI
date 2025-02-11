@@ -21,7 +21,10 @@
 */
 
 
+const sessionStorageEncKey = '<%= SESSION_STORAGE_ENC_KEY %>';
+ 
 export const environment = {
   production: true,
-  invalidCallType: 'Invalid'
+  invalidCallType: 'Invalid',
+  encKey: sessionStorageEncKey,
 };

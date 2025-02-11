@@ -33,9 +33,10 @@ import { LoaderService } from './services/common/loader.service';
 import { Router } from '@angular/router';
 import { AuthService } from './services/authentication/auth.service';
 import { ConfirmationDialogsService } from './services/dialog/confirmation.service';
+import { sessionStorageService } from './services/sessionStorageService/session-storage.service';
 
 export function httpFactory(xhrBackend: XHRBackend,
-    requestOptions: RequestOptions, loaderService: LoaderService,
+    requestOptions: RequestOptions, loaderService: LoaderService,sessionstorage:sessionStorageService,
     router: Router, authService: AuthService, message: ConfirmationDialogsService): Http {
-    return new InterceptedHttp(xhrBackend, requestOptions, loaderService, router, authService, message);
+    return new InterceptedHttp(xhrBackend,sessionstorage, requestOptions, loaderService, router, authService, message);
 }

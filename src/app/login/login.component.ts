@@ -32,6 +32,7 @@ import { Subscription } from 'rxjs';
 import { InterceptedHttp } from 'app/http.interceptor';
 // import { SHA256, enc } from 'crypto-js';
 import * as CryptoJS from 'crypto-js';
+import { sessionStorageService } from 'app/services/sessionStorageService/session-storage.service';
 // import { AES } from 'crypto-js';
 // import { SHA256 } from 'crypto-js';
 
@@ -69,7 +70,7 @@ export class loginContentClass implements OnInit, OnDestroy {
   previlageObj: any = [];
   encryptPassword: any;
 
-  constructor(public loginservice: loginService, public router: Router, public alertService: ConfirmationDialogsService,
+  constructor(public loginservice: loginService,private sessionstorage:sessionStorageService, public router: Router, public alertService: ConfirmationDialogsService,
     public dataSettingService: dataService, private czentrixServices: CzentrixServices, private socketService: SocketService,   private httpService: InterceptedHttp) {
       this._keySize = 256;
       this._ivSize = 128;
@@ -91,9 +92,9 @@ export class loginContentClass implements OnInit, OnDestroy {
         this.dataSettingService.loginIP = response.loginIPAddress;
         console.log('array' + this.previlageObj);
         if (response.isAuthenticated === true && response.Status === 'Active') {
-          sessionStorage.removeItem('isOnCall');
-          sessionStorage.removeItem('isEverwellCall');
-          sessionStorage.removeItem("isGrievanceCall");
+          this.sessionstorage.removeItem('isOnCall');
+          this.sessionstorage.removeItem('isEverwellCall');
+          this.sessionstorage.removeItem("isGrievanceCall");
           this.router.navigate(['/MultiRoleScreenComponent'], { skipLocationChange: true });
         }
         // } else {
@@ -135,9 +136,9 @@ export class loginContentClass implements OnInit, OnDestroy {
         this.dataSettingService.loginIP = response.loginIPAddress;
         console.log('array' + this.previlageObj);
         if (response.isAuthenticated === true && response.Status === 'Active') {
-          sessionStorage.removeItem('isOnCall');
-          sessionStorage.removeItem('isEverwellCall');
-          sessionStorage.removeItem("isGrievanceCall");
+          this.sessionstorage.removeItem('isOnCall');
+          this.sessionstorage.removeItem('isEverwellCall');
+          this.sessionstorage.removeItem("isGrievanceCall");
           this.router.navigate(['/MultiRoleScreenComponent'], { skipLocationChange: true });
         }
         // } else {
@@ -236,10 +237,15 @@ export class loginContentClass implements OnInit, OnDestroy {
     // this.password = CryptoJS.SHA256(this.password).toString();
     // this.encryptedVar=SHA256(this.password).toString(enc.Hex);
     // this.password=this.encryptedVar.substr(0, 16);
-    this.loginservice
+    console.error("response");
+      this.loginservice
       .authenticateUser(this.userID, this.encryptPassword, doLogOut)
       .subscribe(
         (response: any) => {
+          // console.error("response",response);
+          // let tkn = response.Jwttoken;
+          // this.sessionstorage.setCookie('Jwttoken', tkn,1 );
+         
           if (
             response !== undefined &&
             response !== null &&
@@ -248,10 +254,18 @@ export class loginContentClass implements OnInit, OnDestroy {
           ) {
             this.successCallback(response, this.userID, this.password);
           }
+         
         },
+       
         (error: any) => this.errorCallback(error)
-      );
+    
+      ); 
+   
+    
+     
+      
   }
+  
 
   // login(doLogOut) {
   //   this.loginservice
@@ -282,6 +296,9 @@ export class loginContentClass implements OnInit, OnDestroy {
       .authenticateUser(this.userID, this.encryptPassword, doLogOut)
       .subscribe(
         (response: any) => {
+          // console.log("response.Jwttoken",response)
+          // let tkn = response.Jwttoken;
+          // this.sessionstorage.setCookie('Jwttoken', tkn,1 );
           if (
             response !== undefined &&
             response !== null &&
@@ -330,9 +347,9 @@ export class loginContentClass implements OnInit, OnDestroy {
       if (this.dataSettingService.current_serviceID === undefined) {
         alert('ServiceID not found. Some things may not work');
       }
-      sessionStorage.removeItem('isOnCall');
-      sessionStorage.removeItem('isEverwellCall');
-      sessionStorage.removeItem("isGrievanceCall");
+      this.sessionstorage.removeItem('isOnCall');
+      this.sessionstorage.removeItem('isEverwellCall');
+      this.sessionstorage.removeItem("isGrievanceCall");
       sessionStorage.setItem('authToken', response.key);
       this.router.navigate(['/MultiRoleScreenComponent'], { skipLocationChange: true });
       // this.socketService.reInstantiate();
@@ -340,9 +357,9 @@ export class loginContentClass implements OnInit, OnDestroy {
     }
     if (response.isAuthenticated === true && response.Status === 'New') {
       sessionStorage.setItem('authToken', response.key);
-      sessionStorage.removeItem('isOnCall');
-      sessionStorage.removeItem('isEverwellCall');
-      sessionStorage.removeItem("isGrievanceCall");
+      this.sessionstorage.removeItem('isOnCall');
+      this.sessionstorage.removeItem('isEverwellCall');
+      this.sessionstorage.removeItem("isGrievanceCall");
       this.router.navigate(['/setQuestions']);
     }
     // } else {

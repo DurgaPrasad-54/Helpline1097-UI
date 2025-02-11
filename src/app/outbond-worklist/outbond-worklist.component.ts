@@ -29,6 +29,7 @@ import { ConfirmationDialogsService } from '../services/dialog/confirmation.serv
 import { CzentrixServices } from './../services/czentrix/czentrix.service';
 import { HttpServices } from "../services/http-services/http_services.service";
 import { SetLanguageComponent } from 'app/set-language.component';
+import { sessionStorageService } from 'app/services/sessionStorageService/session-storage.service';
 
 
 @Component({
@@ -41,7 +42,7 @@ export class OutbondWorklistComponent implements OnInit {
   @Output() onOutboundCall: EventEmitter<any> = new EventEmitter<any>();
   data: any = [];
   currentLanguageSet: any;
-  constructor(private cz_service : CzentrixServices, private _outBoundService: CallServices, 
+  constructor(private cz_service : CzentrixServices,private sessionstorage:sessionStorageService, private _outBoundService: CallServices, 
     public alertService: ConfirmationDialogsService, private _common: dataService, public router: Router,public HttpServices: HttpServices) {
   }
 
@@ -83,7 +84,7 @@ export class OutbondWorklistComponent implements OnInit {
 
     //    this._dataServivce.outboundBenID = data.beneficiary.beneficiaryRegID;
    //     this._dataServivce.outboundCallReqID = data.outboundCallReqID;
-        sessionStorage.setItem("isOnCall", "yes");
+        this.sessionstorage.setItem("isOnCall", "yes");
   //      this._dataServivce.isSelf = data.isSelf;
       }
       console.log('resp', res);

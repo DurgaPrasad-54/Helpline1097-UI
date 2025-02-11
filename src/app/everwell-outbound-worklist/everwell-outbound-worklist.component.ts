@@ -30,6 +30,7 @@ import { CzentrixServices } from './../services/czentrix/czentrix.service';
 import { OutboundReAllocationService } from "../services/outboundServices/outbound-call-reallocation.service";
 import { SetLanguageComponent } from 'app/set-language.component';
 import { HttpServices } from 'app/services/http-services/http_services.service';
+import { sessionStorageService } from 'app/services/sessionStorageService/session-storage.service';
 
 @Component({
   selector: 'app-everwell-outbound-worklist',
@@ -43,7 +44,7 @@ export class EverwellOutboundWorklistComponent implements OnInit {
   filteredsearchResult: any = [];
   currentLanguageSet: any;
   benDetailsList: any;
-  constructor(private cz_service : CzentrixServices, private _outBoundService: CallServices, private OCRService: OutboundReAllocationService,
+  constructor(private cz_service : CzentrixServices,private sessionstorage:sessionStorageService, private _outBoundService: CallServices, private OCRService: OutboundReAllocationService,
     public alertService: ConfirmationDialogsService, private _common: dataService, public router: Router,
     private HttpServices:HttpServices) {
   }
@@ -104,8 +105,8 @@ export class EverwellOutboundWorklistComponent implements OnInit {
       
           //    this._dataServivce.outboundBenID = data.beneficiary.beneficiaryRegID;
          //     this._dataServivce.outboundCallReqID = data.outboundCallReqID;
-              sessionStorage.setItem("isOnCall", "yes");
-              sessionStorage.setItem("isEverwellCall", "yes");
+              this.sessionstorage.setItem("isOnCall", "yes");
+              this.sessionstorage.setItem("isEverwellCall", "yes");
         //      this._dataServivce.isSelf = data.isSelf;
             }
           }, (err) => {

@@ -34,6 +34,7 @@ import { AuthService } from './../../services/authentication/auth.service';
 import 'rxjs/add/operator/toPromise'
 import { SetLanguageComponent } from 'app/set-language.component';
 import { HttpServices } from '../http-services/http_services.service';
+import { sessionStorageService } from '../sessionStorageService/session-storage.service';
 @Injectable()
 export class AuthGuard implements CanActivate {
   _baseURL = this._config.getCommonBaseURL();
@@ -41,7 +42,7 @@ export class AuthGuard implements CanActivate {
   _deleteToken = this._baseURL + 'user/userLogout';
   currentLanguageSet: any;
   constructor(
-    private router: Router,
+    private router: Router,private sessionstorage:sessionStorageService,
     private route: ActivatedRoute, public dataSettingService: dataService, private _http: InterceptedHttp
     , private _config: ConfigService, private authService: AuthService,public httpServices:HttpServices) { }
 
@@ -60,7 +61,7 @@ export class AuthGuard implements CanActivate {
 		 
 		 }
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-    const key = sessionStorage.getItem('isOnCall');
+    const key = this.sessionstorage.getItem('isOnCall');
     const authkey = sessionStorage.getItem('authToken');
 
     // if (authkey) {

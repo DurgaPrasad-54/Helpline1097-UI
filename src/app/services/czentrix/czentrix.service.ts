@@ -30,6 +30,7 @@ import { ConfigService } from '../config/config.service';
 import { dataService } from '../dataService/data.service';
 import { AuthorizationWrapper } from './../../authorization.wrapper';
 import { InterceptedHttp } from './../../http.interceptor'
+import { sessionStorageService } from '../sessionStorageService/session-storage.service';
 
 
 @Injectable()
@@ -52,7 +53,7 @@ export class CzentrixServices {
   _agentLogOut = this.openCommonUrl + 'cti/doAgentLogout';
   logoutUserUrl = this.openCommonUrl + "user/userLogout";
   phone_num: number;
-  constructor(private http: AuthorizationWrapper,
+  constructor(private http: AuthorizationWrapper,private sessionstorage:sessionStorageService,
     private _http: Http, private httpInterceptor: InterceptedHttp,
     private _config: ConfigService, private _data: dataService, private normalHTTP: Http) {
     this.agent_id = this._data.cZentrixAgentID;
@@ -87,10 +88,10 @@ export class CzentrixServices {
   }
 
   userLogout() {
-    // sessionStorage.clear();
-    sessionStorage.removeItem("privilege_flag");
-    sessionStorage.removeItem("session_id");
-    sessionStorage.removeItem("callTransferred");
+    // this.sessionstorage.clear();
+    this.sessionstorage.removeItem("privilege_flag");
+    this.sessionstorage.removeItem("session_id");
+    this.sessionstorage.removeItem("callTransferred");
     return this.httpInterceptor
       .post(this.logoutUserUrl, {})
       .map(this.extractData)
