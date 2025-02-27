@@ -36,7 +36,7 @@ import { ConfirmationDialogsService } from './services/dialog/confirmation.servi
 import { sessionStorageService } from './services/sessionStorageService/session-storage.service';
 
 export function httpFactory(xhrBackend: XHRBackend,
-    requestOptions: RequestOptions, loaderService: LoaderService,sessionstorage:sessionStorageService,
-    router: Router, authService: AuthService, message: ConfirmationDialogsService): Http {
-    return new InterceptedHttp(xhrBackend,sessionstorage, requestOptions, loaderService, router, authService, message);
+    requestOptions: RequestOptions, loaderService: LoaderService,
+    router: Router, authService: AuthService, message: ConfirmationDialogsService,sessionstorage:sessionStorageService): Http {
+    return new InterceptedHttp(xhrBackend, requestOptions, loaderService, router, authService, message, sessionstorage);
 }
