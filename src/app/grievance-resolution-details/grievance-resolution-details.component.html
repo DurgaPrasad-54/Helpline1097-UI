@@ -18,24 +18,9 @@
       <md-icon class="md-18">history</md-icon>
     </button>
   </div>
-    <!-- <button type="button" md-raised-button color="primary" class="pull-right font-regular  m-t-15" (click)="submitComplaintResolution()">
-      Transaction Details</button> -->
   </div>
 </div>
 
-<!-- <div class="col-12" style="text-align: end">
-  <span class="font-history-label">Previous Transaction History</span>
-  <button
-    type="button"
-    mdTooltip="Previous Transaction History"
-    id="previousTransactionHistory"
-    class="mat_icon_blue cursorPointer"
-    color="primary"
-    (click)="getPreviousMenstrualHistory()"
-  >
-    <md-icon class="md-18">history</md-icon>
-  </button>
-</div> -->
 
 
 <div class="container-fluid">
@@ -59,12 +44,6 @@
         name="complaint" [(ngModel)]="complaint" maxlength="5000"></textarea>
         </md-input-container>
     </div>
-    <!-- <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
-      <md-input-container [style.width]="'100%'">
-      <textarea textAreaValidator  readonly #complaintDesc="ngModel" mdInput placeholder="{{currentLanguageSet?.comments}}" rows="2"
-      name="comments" [(ngModel)]="comments" maxlength="5000"></textarea>
-      </md-input-container>
-  </div> -->
       <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
         <md-input-container [style.width]="'100%'">
         <textarea textAreaValidator  #complaintRemark="ngModel" mdInput placeholder="{{currentLanguageSet?.remarks}}" rows="2"
@@ -83,54 +62,6 @@
       
   </div>
 
-  <!-- <div class="row">
-    <div class="col-xs-12 col-sm-12">
-      <div class="table-responsive m-t-10">
-        <table class="table table-responsive table-striped" [md2Data]="transactionList" #md2="md2DataTable" [rowsPerPage]="3" aria-describedby="transactionDetails">
-          <thead>
-            <tr>
-              <th style="width: 2%;" id="sno">{{currentLanguageSet?.sno}}</th>
-              <th md2SortBy="beneficiaryID" style="width: 5%;" id="beneficiaryID">{{currentLanguageSet?.beneficiaryId}}</th>
-              <th md2SortBy="firstName" style="width: 12%;" id="fullname">{{currentLanguageSet?.fullName}}</th>
-             
-              <th style="width: 3%;" id="age">{{currentLanguageSet?.age}}</th>
-              <th style="width: 5%;" id="gender">{{currentLanguageSet?.gender}}</th>
-              <th style="width: 5%;" id="action">{{currentLanguageSet?.action}}</th> 
-            </tr>
-          </thead>
-         
-          <tbody *ngIf="md2.data?.length==0">
-            <tr>
-              <td class="t-a-c record-not-found" colspan="6">
-                {{currentLanguageSet?.noRecordsFound}}
-              </td>
-            </tr>
-          </tbody>
-          <tbody *ngIf="md2.data?.length>0">
-
-            <tr  *ngFor="let transactionHistory of md2.data;let i=index " style="cursor: pointer">
-
-              <td>{{(md2.activePage-1)*(md2.rowsPerPage)+i+1}}</td>
-              <td>{{transactionHistory.updatedAt}}</td>
-              <td>{{transactionHistory.comment}}</td>
-              <td>{{transactionHistory.status}}</td>
-              <td>{{transactionHistory.actionTakenBy}}</td>
-              <td>
-                <md-icon class="mat-icon material-icons cursorPointer" role="img" mdTooltip="{{currentLanguageSet?.viewComplaintDescription}}" aria-hidden="true" style="color:gray" (click)="viewComplaintDesc(listItem)">visibility</md-icon>
-              </td>
-            </tr>
-          </tbody>
-          <tfoot>
-            <tr>
-              <td colspan="6">
-                <md2-pagination></md2-pagination>
-              </td>
-            </tr>
-          </tfoot>
-        </table>
-      </div>
-    </div>
-  </div> -->
 
       <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 p-t-lg-15 m-t-15">
         <button type="button" md-raised-button color="accent" class="pull-right font-regular  m-t-15" (click)="submitComplaintResolution()" [disabled]="form.invalid">
