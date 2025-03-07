@@ -17,7 +17,7 @@ import { SetLanguageComponent } from 'app/set-language.component';
 })
 export class GrievanceOutboundCallAllocateRecordsComponent implements OnInit {
   users: any = [];
-  userID: any;
+  touserID: any;
   roleID: any;
   allocateNo: any;
   roles: any = [];
@@ -64,7 +64,7 @@ export class GrievanceOutboundCallAllocateRecordsComponent implements OnInit {
   createForm() {
     this.allocateForm = this.fb.group({
       roleID: ['', Validators.required],
-      userID: ['', Validators.required],
+      touserID: ['', Validators.required],
       allocateNo: ['', Validators.required]
     });
   }
@@ -82,7 +82,7 @@ export class GrievanceOutboundCallAllocateRecordsComponent implements OnInit {
   }
   getAgents(roleID: any) {
     this.users = [];
-    this.allocateForm.controls["userID"].patchValue([]);
+    this.allocateForm.controls["touserID"].patchValue([]);
     this.allocateForm.controls["allocateNo"].patchValue(this.outboundCallRequests.noOfRecords);
     let languageName = null;
     if (this.outboundCallRequests && this.outboundCallRequests.langaugeName) {
@@ -134,7 +134,7 @@ export class GrievanceOutboundCallAllocateRecordsComponent implements OnInit {
     this.getUnallocateCall(this.providerServiceMapID, this.outboundCallRequests);
     this.afterAllocate = true;
     this.allocateForm.patchValue({
-      userID: []
+      touserID: []
     });
     if (this.reallocationFlag) {
       this.selectedLanguage = this.filterAgent.languageName;
@@ -157,7 +157,7 @@ export class GrievanceOutboundCallAllocateRecordsComponent implements OnInit {
     this.outboundCallAllocationService.allocateGrievanceCallsToAgents(requestObject, isAllocate)
       .subscribe(
       (response) => {
-        if(response && response.statusCode === 200) {
+        if(response) {
         this.alertMessage.alert(this.currentLanguageSet.callAllocatedSuccessfully, 'success');
         this.afterAllocate = false;
         let obj = {};
@@ -193,8 +193,8 @@ export class GrievanceOutboundCallAllocateRecordsComponent implements OnInit {
   OnSelectChange() {
     let outboundlistCount = this.outboundCallRequests.noOfRecords;
 
-    if(this.allocateForm.value.userID && this.allocateForm.value.userID.length > 0) {
-    let tempValue = Math.floor(outboundlistCount / this.allocateForm.value.userID.length);
+    if(this.allocateForm.value.touserID && this.allocateForm.value.touserID.length > 0) {
+    let tempValue = Math.floor(outboundlistCount / this.allocateForm.value.touserID.length);
     this.initialCount = tempValue;
     this.allocateForm.patchValue({
       allocateNo: tempValue

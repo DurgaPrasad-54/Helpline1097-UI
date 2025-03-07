@@ -31,6 +31,7 @@ import { MdDialog } from '@angular/material';
 import { HttpServices } from 'app/services/http-services/http_services.service';
 import { GrievanceTransactionDetailsComponent } from '../grievance-transaction-details/grievance-transaction-details.component';
 declare var jQuery: any;
+import { RegisterService } from '../services/register-services/register-service';
 
 @Component({
   selector: 'app-grievance-resolution-details',
@@ -55,13 +56,15 @@ export class GrievanceResolutionDetailsComponent implements OnInit {
   resolutionMaster:any=["Resolved", "Unresolved"];
   grievanceSelectedBenData:any;
   subjectOfComplaint:any;
+  currentCampaign: any;
 
   constructor(
     private coFeedbackService: CoFeedbackService,
     private savedData: dataService,
     private alertMessage: ConfirmationDialogsService,
     public dialog: MdDialog,
-    private httpServices:HttpServices
+    private httpServices:HttpServices,
+    private registerService: RegisterService,
   ) {
 
   }
@@ -76,6 +79,12 @@ export class GrievanceResolutionDetailsComponent implements OnInit {
     this.assignSelectedLanguage();
     this.setComplaintDetails();
 
+    this.currentCampaign = this.savedData.current_campaign ? this.savedData.current_campaign : null;
+    if (this.currentCampaign === 'OUTBOUND' && this.grievanceSelectedBenData !== undefined && this.grievanceSelectedBenData !== null) {
+      
+        this.startOutBoundCall(this.grievanceSelectedBenData);
+    } 
+
   }
 
 
@@ -84,13 +93,37 @@ export class GrievanceResolutionDetailsComponent implements OnInit {
     this.assignSelectedLanguage();
   }
 
+  startOutBoundCall(outboundData: any) {
+    if(this.savedData !== undefined && this.savedData !== null) {
+    const data: any = {};
+    data.callID = this.savedData.callID;
+    data.is1097 = true;
+    data.createdBy = this.savedData.uname;
+    data.calledServiceID = this.savedData.current_service.serviceID;
+    data.phoneNo = outboundData.primaryNumber ? outboundData.primaryNumber : null;
+    data.agentID = this.savedData.cZentrixAgentID;
+    data.callReceivedUserID = this.savedData.uid;
+    data.receivedRoleName = this.savedData.current_role.RoleName;
+    data.beneficiaryRegID = outboundData.beneficiaryRegID ? outboundData.beneficiaryRegID: null;
+    data.isOutbound = this.savedData.isOutbound;
+    this.registerService.startCall(data).subscribe((response) => {
+      if(response) {
+      this.savedData.callData = response;
+      }
+    }, (err) => {
+      this.alertMessage.alert(err.errorMessage, 'error');
+
+    });
+  }
+  }
+
   setComplaintDetails() {
     if(this.grievanceSelectedBenData){
     this.complaintID = this.grievanceSelectedBenData.complaintID;
-    this.complaintSubject =  this.grievanceSelectedBenData.subjectOfComplaint;
-    this.complaint = this.grievanceSelectedBenData.complaint;
+    this.complaintSubject =  this.grievanceSelectedBenData.subjectOfComplaint ? this.grievanceSelectedBenData.subjectOfComplaint : "";
+    this.complaint = this.grievanceSelectedBenData.complaint ? this.grievanceSelectedBenData.complaint : "";
     // this.comments = this.grievanceSelectedBenData.comments;
-    this.transactionList = this.grievanceSelectedBenData.transaction
+    this.transactionList = this.grievanceSelectedBenData.transactions
     }
   }
   
@@ -100,7 +133,7 @@ export class GrievanceResolutionDetailsComponent implements OnInit {
     const feedbackObj = {
       'complaintID': this.complaintID,
       'complaintResolution': this.complaintResolution,
-      'remark': this.remark,
+      'remarks': this.remark,
       'beneficiaryRegID': this.beneficiaryRegID,
       'providerServiceMapID': this.providerServiceMapID ? this.providerServiceMapID : null,
       'userID': this.savedData.uid,
@@ -109,7 +142,7 @@ export class GrievanceResolutionDetailsComponent implements OnInit {
     };
     this.coFeedbackService.saveComplaintResolution(feedbackObj)
       .subscribe((response) => {
-        if(response && response.statusCode === 200) {
+        if(response) {
         this.alertMessage.alert(response.response, 'success');
         }
 
@@ -131,6 +164,7 @@ export class GrievanceResolutionDetailsComponent implements OnInit {
     });
   
   }
+  
  
   ngDoCheck() {
     this.assignSelectedLanguage();

@@ -40,7 +40,7 @@
 
 <div class="container-fluid">
   <div class="row">
-    <form id="complaintResolutionForm" form="ngForm" autocomplete="off">
+    <form id="complaintResolutionForm" #form="ngForm" autocomplete="off">
       <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 m-t-15">
         <md-input-container  [style.width]="'100%'">
           <input  mdInput readonly placeholder="{{currentLanguageSet?.complaintID}}" name="complaintID"
@@ -68,7 +68,7 @@
       <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
         <md-input-container [style.width]="'100%'">
         <textarea textAreaValidator  #complaintRemark="ngModel" mdInput placeholder="{{currentLanguageSet?.remarks}}" rows="2"
-        name="remark" [(ngModel)]="remark" maxlength="5000" (keyup)="updateCount()"></textarea>
+        name="remark" [(ngModel)]="remark" maxlength="5000" (keyup)="updateCount()" [required]="complaintResolution && complaintResolution === 'Unresolved'"></textarea>
         </md-input-container>
     </div>
 
@@ -133,7 +133,7 @@
   </div> -->
 
       <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 p-t-lg-15 m-t-15">
-        <button type="button" md-raised-button color="accent" class="pull-right font-regular  m-t-15" (click)="submitComplaintResolution()" [disabled]="compResolution.invalid">
+        <button type="button" md-raised-button color="accent" class="pull-right font-regular  m-t-15" (click)="submitComplaintResolution()" [disabled]="form.invalid">
           {{currentLanguageSet?.submit}}</button>
       </div>
      

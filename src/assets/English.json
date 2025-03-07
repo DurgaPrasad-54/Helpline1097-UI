@@ -747,7 +747,8 @@
       "actionTakenBy": "Action Taken By",
       "file": "File",
       "viewFile": "View File",
-      "fileIsNotAvailable" : "File is not available"
+      "fileIsNotAvailable" : "File is not available",
+      "noComplaintDescriptionFound" : "No Complaint Description Found"
 
 
 

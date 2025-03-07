@@ -97,11 +97,10 @@ export class GrievanceOutboundCallReallocationComponent implements OnInit {
     this.agentName = this.searchAgent.firstName + " " + this.searchAgent.lastName;
     this.postData = {
       "providerServiceMapID": this.providerServiceMapID,
-      "assignedUserID": this.reallocationForm.value.agentName.userID
+      "userID": this.reallocationForm.value.agentName.userID
     };
  
     this.onAgentSelected = false;
-    //** this.outboundReAllocationService.getReallocationCalls(this.postData)
     this.outboundReAllocationService.getGrievanceReallocationCalls(this.postData)
       .subscribe((resProviderData) => {
         this.totalAgentRecords = resProviderData;
@@ -120,9 +119,11 @@ export class GrievanceOutboundCallReallocationComponent implements OnInit {
   reallocationDone() {
     this.showFlag = false;
     this.outboundReAllocationService.getGrievanceReallocationCalls(this.postData)
-    //** this.outboundReAllocationService.getReallocationCalls(this.postData)
       .subscribe((resProviderData) => {
         this.totalAgentRecords = resProviderData;
+        if (this.totalAgentRecords && this.totalAgentRecords.length === 0) {
+          this.onAgentSelected = false;
+    }
       },
       (error) => {
         this.alertService.alert(error.errorMessage,'error');
@@ -135,13 +136,13 @@ export class GrievanceOutboundCallReallocationComponent implements OnInit {
 
     let reqObj = {
       "providerServiceMapID": this.providerServiceMapID,
-      "assignedUserID": this.reallocationForm.value.agentName.userID,
+      "userID": this.reallocationForm.value.agentName.userID,
       "preferredLanguageName": language,
       "is1097": true,
       "noOfCalls": noOfRecords
     }
       this.outboundReAllocationService.grievanceMoveToBin(reqObj).subscribe((response) => {
-        if(response && response.statusCode === 200) {
+        if(response) {
         this.alertService.alert(this.currentLanguageSet.movedToBinSuccessfully,'success');
 
         this.reallocationDone();

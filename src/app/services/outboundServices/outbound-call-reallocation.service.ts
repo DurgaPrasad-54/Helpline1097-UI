@@ -45,7 +45,7 @@ export class OutboundReAllocationService {
     private everwellMoveToBinURL: string = this._baseurl + 'everwellCall/resetOutboundCall';   
     private grievanceMoveToBinURL: string = this._baseurl + 'moveToBin'; 
     private _getEverwelloutboundCallListURL: string = this._baseurl + 'everwellCall/outboundCallList';
-    private _getGrievanceoutboundCallListURL: string = this._baseurl + 'greivance/outboundCallList';
+    private _getGrievanceoutboundCallListURL: string = this._baseurl + 'getGrievanceOutboundWorklist';
     private getEverwellFeedBackDetailsURL: string = this._baseurl + 'everwellCall/getEverwellfeedbackDetails';
     private getEverwellGuidelinesURL: string = this._1097baseUrl + 'fetchEverwellGuidelines';
     private getbenDetailsOnPhnNoURL: string = this._baseurl + 'everwellCall/outboundCallListWithMobileNumber';
@@ -141,6 +141,7 @@ export class OutboundReAllocationService {
             return Observable.throw(response.json());
         };
     }
+    
     private extractDataSuccess(response: Response) {
 
         console.log('service me original', response.json().data);

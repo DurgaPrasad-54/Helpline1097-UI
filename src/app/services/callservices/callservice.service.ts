@@ -54,7 +54,7 @@ export class CallServices {
   _getBenOutboundListUrl = this._commonURL + "call/getBenRequestedOutboundCall";
   _servicetypesurl = this._commonURL + "service/servicetypes";
   _outEverwellbouncClose_url = this._commonURL + 'everwellCall/completeOutboundCall';
-  grievanceOutboundCallClosureUrl = this._commonURL + 'grievanceCall/completeOutboundCall';
+  grievanceOutboundCallClosureUrl = this._commonURL + 'completeGrievanceCall';
   _postEverwellFeedback = this._commonURL + 'everwellCall/saveFeedback';
   getWrapupTime = this._commonURL +  'user/role/';
   onceOutbound: boolean = false;

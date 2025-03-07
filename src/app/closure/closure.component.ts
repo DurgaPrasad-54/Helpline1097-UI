@@ -598,14 +598,12 @@ export class ClosureComponent implements OnInit {
         let grievanceData = this.saved_data.outboundGrievanceData;
         let outboundObj = {};
           outboundObj["complaintID"] = grievanceData.complaintID;
-          outboundObj["assignedUserID"] = this.saved_data.uid;
+          outboundObj["userID"] = this.saved_data.uid;
           outboundObj["isCompleted"] = true;
-          outboundObj["beneficiaryRegId"] = grievanceData.beneficiaryRegID;
+          outboundObj["beneficiaryRegID"] = grievanceData.beneficiaryRegID;
           outboundObj["callTypeID"] = values.callTypeID;
           outboundObj["benCallID"] = values.benCallID;
-          outboundObj["callId"] = this.saved_data.callID;
-          outboundObj["providerServiceMapId"] = values.providerServiceMapID;
-          outboundObj["requestedServiceID"] = null;
+          outboundObj["providerServiceMapID"] = values.providerServiceMapID;
           outboundObj["createdBy"] = this.saved_data.uname;
 
 

@@ -64,7 +64,6 @@ export class GrievanceOutboundCallAllocationComponent implements OnInit {
     this.showCount = false;
   }
   getOutboundCallCount(serviceProviderMapID, startDate?: any, endDate?: any, language?: any) {
-   //** this.outboundSearchRecordService.getUnallocatedCallsCount(serviceProviderMapID, startDate, endDate, language)
    this.outboundSearchRecordService.getUnallocatedGrievanceCallsCount(serviceProviderMapID, startDate, endDate, language)
       .subscribe(resProviderData => {
         this.unAllocatedGrievanceCalls = resProviderData.data;
