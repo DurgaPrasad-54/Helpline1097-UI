@@ -139,7 +139,7 @@ export class OutboundReAllocationService {
             return response.json().data;
         } else {
             return Observable.throw(response.json());
-        };
+        }
     }
     
     private extractDataSuccess(response: Response) {
