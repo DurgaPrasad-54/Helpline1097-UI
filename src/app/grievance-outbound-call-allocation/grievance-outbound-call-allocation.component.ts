@@ -70,9 +70,10 @@ export class GrievanceOutboundCallAllocationComponent implements OnInit {
         this.showCount = true;
         this.enableTableData = true;
         this.selectedLanguage = language;
-      }),(err) => {
+      },(err) => {
         this.alertService.alert(err.errorMessage,'error');
       }
+    );
   }
   allocateCalls(startDate: Date, endDate: Date, language: any, count:any) {
     if (this.unAllocatedGrievanceCalls && this.unAllocatedGrievanceCalls.length > 0) {

@@ -74,11 +74,10 @@ export class GrievanceOutboundCallAllocateRecordsComponent implements OnInit {
         this.roles = response.filter((item) => {
           return item.roleName && item.roleName.toLowerCase() !== 'supervisor' && item.roleName.toLowerCase() !== 'provideradmin';
         })
-      }
-      ), (err) => {
+      }, (err) => {
         this.alertMessage.alert(err.errorMessage, 'error');
 
-      };
+      });
   }
   getAgents(roleID: any) {
     this.users = [];
@@ -107,9 +106,9 @@ export class GrievanceOutboundCallAllocateRecordsComponent implements OnInit {
         else {
           this.showAgents = true;
         }
-      }), (err) => {
+      }, (err) => {
         this.alertMessage.alert(err.errorMessage, 'error');
-      }
+      });
   }
 
   getAgentsbyLanguageName(roleID: any, languageName) {
@@ -121,9 +120,9 @@ export class GrievanceOutboundCallAllocateRecordsComponent implements OnInit {
             return (obj.firstName + " " + obj.lastName) !== this.filterAgent.agentName;
           })
         }
-      }), (err) => {
+      }, (err) => {
         this.alertMessage.alert(err.errorMessage, 'error');
-      }
+      });
   }
 
   ngOnChanges() {
