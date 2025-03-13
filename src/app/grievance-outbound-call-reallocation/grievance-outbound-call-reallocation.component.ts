@@ -64,19 +64,19 @@ export class GrievanceOutboundCallReallocationComponent implements OnInit {
         if(obj !== undefined && obj !== null && obj.roleName !== undefined && obj.roleName !== null)
         return obj.roleName.trim().toUpperCase() !== "PROVIDERADMIN" && obj.roleName.trim().toUpperCase() !== "SUPERVISOR";
       });
-    }),(err) => {
+    },(err) => {
       this.alertService.alert(err.errorMessage,'error');
 
-    }
+    });
   }
 
   getAgents(roleID: any) {
     this.outboundReAllocationService.getAgents(this.providerServiceMapID, roleID)
       .subscribe((response) => {
         this.users = response;
-      }),(err) => {
+      },(err) => {
         this.alertService.alert(err.errorMessage,'error');
-      }
+      });
     this.reallocationForm.form.patchValue({
       userID: []
     });
