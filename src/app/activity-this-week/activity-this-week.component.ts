@@ -137,7 +137,7 @@ export class ActivityThisWeekComponent implements OnInit {
    this.callService.switchToOutbound(this.getCommonData.cZentrixAgentID).subscribe((res) => {
 
      this.getCommonData.current_campaign = 'OUTBOUND';
-     sessionStorage.setItem("current_campaign", 'OUTBOUND');
+     this.sessionstorage.setItem("current_campaign", 'OUTBOUND');
      this.router.navigate(['/MultiRoleScreenComponent/OutboundCallWorklistsComponent']);
    }, (err) => {
      let errorText: string;

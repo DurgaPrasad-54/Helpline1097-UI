@@ -612,7 +612,7 @@ export class InnerpageComponent implements OnInit {
           return item.callGroupType.toLowerCase().startsWith("transfer");
         });
         if (
-          transferObj &&
+          transferObj && transferObj.length > 0 && 
           transferObj[0].callTypes !== undefined &&
           transferObj[0].callTypes !== null
         ) {
@@ -627,11 +627,12 @@ export class InnerpageComponent implements OnInit {
           if (transferObj && transferObj[0].callTypeID) {
             this.transferCallID = transferObj[0].callTypeID;
           }
-        } else {
-          this.remarksMessage.alert(
-            this.currentlanguageSet.failedToGetCallTypes
-          );
-        }
+        } 
+        // else {
+        //   this.remarksMessage.alert(
+        //     this.currentlanguageSet.failedToGetCallTypes
+        //   );
+        // }
 
         for (let i = 0; i < response.length; i++) {
           if (response[i].callGroupType.startsWith("Wrapup")) {

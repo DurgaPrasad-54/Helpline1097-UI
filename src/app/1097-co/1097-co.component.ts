@@ -183,12 +183,18 @@ export class helpline1097CoComponent implements OnInit {
   OUT: boolean;
   ngOnChanges() {
     this.submitCheck = this.getCommonData.checkEverwellResponse;
+    this.isEverwell = this.sessionstorage.getItem("isEverwellCall");
+    this.isGrievance = this.sessionstorage.getItem("isGrievanceCall");
     console.log("submitCheckOn", this.submitCheck);
     this.setLanguage(this.current_language);
-    if (this.getCommonData.current_campaign == "OUTBOUND") {
+    if (this.getCommonData.current_campaign === "OUTBOUND" && this.isGrievance === "yes") {
       this.OUT = true;
       this.enableGrievanceResolution = true;
-    } else {
+    } 
+    else if (this.getCommonData.current_campaign === "OUTBOUND" && this.isEverwell === "yes") {
+      this.OUT = true;
+      this.enableGrievanceResolution = false;
+    }else {
       this.OUT = false;
       this.enableGrievanceResolution = false;
     }

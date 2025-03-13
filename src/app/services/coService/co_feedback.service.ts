@@ -43,7 +43,7 @@ export class CoFeedbackService {
     _getDesignationsURL = this._baseurl + 'designation/get'
     // _getFeedbackHistoryByID = this._baseurl + 'services/getFeedbacksHistory'
     _getFeedbackHistory = this._commonUrl + 'feedback/getFeedbacksList';
-     saveComplaintResolutionURL = this._baseurl + 'saveComplaintResolution'
+     saveComplaintResolutionURL = this._commonUrl + 'saveComplaintResolution'
     constructor(
         private _http: AuthorizationWrapper,
         private _config: ConfigService,

@@ -91,12 +91,12 @@
 
               <ul *ngIf="grievanceSelectedBenData" class="list-unstyled list-inline pull-left  p-a-0 m-b-3 ">
 
-                <li class="m-l-lg-20 f-s-16 f-c-0 font-Medium">{{currentLanguageSet?.benId}} : {{grievanceSelectedBenData?.beneficiaryID}}</li>
-                <li>{{grievanceSelectedBenData?.firstName + " " + grievanceSelectedBenData?.lastName}}</li>
-                <li>{{grievanceSelectedBenData?.age}}</li>
-                <li>{{grievanceSelectedBenData?.state}}</li>
-                <li>{{grievanceSelectedBenData?.district}}</li>
-                <li>{{grievanceSelectedBenData?.gender}}</li>   
+                <li class="m-l-lg-20 f-s-16 f-c-0 font-Medium" *ngIf="grievanceSelectedBenData?.beneficiaryID">{{currentLanguageSet?.benId}} : {{grievanceSelectedBenData?.beneficiaryID}}</li>
+                <li  *ngIf="grievanceSelectedBenData?.firstName">{{grievanceSelectedBenData?.firstName + " " + (grievanceSelectedBenData?.lastName ? grievanceSelectedBenData?.lastName : '')}}</li>
+                <li  *ngIf="grievanceSelectedBenData?.age">{{grievanceSelectedBenData?.age}}</li>
+                <li  *ngIf="grievanceSelectedBenData?.state">{{grievanceSelectedBenData?.state}}</li>
+                <li  *ngIf="grievanceSelectedBenData?.district">{{grievanceSelectedBenData?.district}}</li>
+                <li  *ngIf="grievanceSelectedBenData?.gender">{{grievanceSelectedBenData?.gender}}</li>   
               </ul>
               <span *ngIf="ticks > 0 && wrapupTime" class="pull-right">{{currentLanguageSet?.timeRemaining}}:
                 <strong>{{ticks}}</strong>

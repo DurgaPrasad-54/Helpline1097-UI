@@ -33,6 +33,23 @@ export class GrievanceTransactionDetailsComponent implements OnInit {
     this.currentLanguageSet = getLanguageJson.currentLanguageObject;
   }
 
+  millisToUTCDate(millis) {
+    return this.toUTCDate(new Date(millis));
+  }
+
+  toUTCDate(date) {
+    const _utc = new Date(
+      date.getUTCFullYear(),
+      date.getUTCMonth(),
+      date.getUTCDate(),
+      date.getUTCHours(),
+      date.getUTCMinutes(),
+      date.getUTCSeconds()
+    );
+    return _utc;
+  }
+
+
 
 
   viewTransactionFile(fileUrl:any) {

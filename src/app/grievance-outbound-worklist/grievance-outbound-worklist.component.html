@@ -63,7 +63,14 @@
                       <td style="width: 20%;">{{listItem?.subjectOfComplaint ? listItem?.subjectOfComplaint : 'N/A'}}</td>
                       <td style="width: 10%;">{{listItem?.state}}</td>
                       <td style="width: 10%;">{{listItem?.severety}}</td>
-                      <td style="width: 15%;">{{listItem?.callCounter > 0 ? (listItem?.lastCall  ? listItem?.lastCall : 'N/A') : 'N/A'}}</td>
+                      <td style="width: 15%;">
+                        {{ listItem?.callCounter > 0
+                            ? (listItem?.lastCall
+                                ? (millisToUTCDate(listItem?.lastCall) | date:'dd/MM/yyyy hh:mm a')
+                                : 'N/A')
+                            : 'N/A'
+                        }}
+                       </td>
                       <td style="width: 12%;">{{listItem?.callCounter}}</td>
                       <td style="width: 10%;">
                         <md-icon class="mat-icon material-icons cursorPointer" role="img" mdTooltip="{{currentLanguageSet?.viewComplaintDescription}}" aria-hidden="true" style="color:gray" (click)="viewComplaintDesc(listItem)">visibility</md-icon>

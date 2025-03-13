@@ -70,8 +70,8 @@ export class GrievanceOutboundWorklistComponent implements OnInit {
             } else {
               this.commonDataService.callerNumber = data.primaryNumber;
 
-              sessionStorage.setItem("isOnCall", "yes");
-              sessionStorage.setItem("isGrievanceCall", "yes");
+              this.sessionstorage.setItem("isOnCall", "yes");
+              this.sessionstorage.setItem("isGrievanceCall", "yes");
             }
           }, (err) => {
             this.alertService.alert(err.errorMessage);
@@ -120,6 +120,23 @@ export class GrievanceOutboundWorklistComponent implements OnInit {
     }
 
   }
+
+  millisToUTCDate(millis) {
+    return this.toUTCDate(new Date(millis));
+  }
+
+  toUTCDate(date) {
+    const _utc = new Date(
+      date.getUTCFullYear(),
+      date.getUTCMonth(),
+      date.getUTCDate(),
+      date.getUTCHours(),
+      date.getUTCMinutes(),
+      date.getUTCSeconds()
+    );
+    return _utc;
+  }
+
 
   ngDoCheck() {
     this.assignSelectedLanguage();
