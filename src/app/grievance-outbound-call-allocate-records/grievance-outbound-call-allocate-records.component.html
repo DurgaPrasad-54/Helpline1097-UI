@@ -16,7 +16,7 @@
       </div>
       <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 p-b-1-5">
        
-          <md-select multiple [style.width]="'100%'" formControlName="touserID" name="touserID" (change)="OnSelectChange()" placeholder="{{currentLanguageSet?.allocateTo}}" required>
+          <md-select multiple [style.width]="'100%'" formControlName="touserID" name="touserID" (change)="onSelectChange()" placeholder="{{currentLanguageSet?.allocateTo}}" required>
             <md-option *ngFor="let user of users" [value]="user.userID"> {{user.firstName+ " "+user.lastName}}</md-option>
           </md-select>
           <md-hint *ngIf="showAgents">

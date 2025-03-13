@@ -189,7 +189,7 @@ export class GrievanceOutboundCallAllocateRecordsComponent implements OnInit {
     }
   }
 
-  OnSelectChange() {
+  onSelectChange() {
     let outboundlistCount = this.outboundCallRequests.noOfRecords;
 
     if(this.allocateForm.value.touserID && this.allocateForm.value.touserID.length > 0) {
