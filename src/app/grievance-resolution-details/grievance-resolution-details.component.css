@@ -2,9 +2,8 @@
     background-color: white;
     min-width: 0;
     border-radius: 50%;
-    border-color: unset !important;
     color:#0277bd ;
-    border: unset;
+    border: none;
     width: 40px;
     height: 40px;
     padding: 0;
