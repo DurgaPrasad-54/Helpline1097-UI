@@ -28,19 +28,19 @@
     <form id="complaintResolutionForm" #form="ngForm" autocomplete="off">
       <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 m-t-15">
         <md-input-container  [style.width]="'100%'">
-          <input  mdInput readonly placeholder="{{currentLanguageSet?.complaintID}}" name="complaintID"
+          <input  mdInput disabled placeholder="{{currentLanguageSet?.complaintID}}" name="complaintID"
             [(ngModel)]="complaintID">
         </md-input-container>
       </div>
     <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 m-t-15">
       <md-input-container  [style.width]="'100%'">
-        <input  mdInput readonly placeholder="{{currentLanguageSet?.subjectOfComplaint}}" name="complaintSubject"
+        <input  mdInput disabled placeholder="{{currentLanguageSet?.subjectOfComplaint}}" name="complaintSubject"
           [(ngModel)]="complaintSubject">
       </md-input-container>
   </div>
       <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
         <md-input-container [style.width]="'100%'">
-        <textarea textAreaValidator  readonly #complaintDesc="ngModel" mdInput placeholder="{{currentLanguageSet?.complaint}}" rows="2"
+        <textarea textAreaValidator  disabled #complaintDesc="ngModel" mdInput placeholder="{{currentLanguageSet?.complaint}}" rows="2"
         name="complaint" [(ngModel)]="complaint" maxlength="5000"></textarea>
         </md-input-container>
     </div>
