@@ -34,7 +34,7 @@
             <tr  *ngFor="let transactionHistory of md2.data;let i=index " style="cursor: pointer">
 
               <td>{{(md2.activePage-1)*(md2.rowsPerPage)+i+1}}</td>
-              <td>{{transactionHistory.updatedAt?(millisToUTCDate(transactionHistory.updatedAt)|date:'dd/MM/yyyy hh:mm a'):''}}</td>
+              <td>{{transactionHistory.updatedAt?(transactionHistory.updatedAt|date:'dd/MM/yyyy hh:mm a'):''}}</td>
               <td>{{transactionHistory.comment}}</td>
               <td>{{transactionHistory.status}}</td>
               <td>{{transactionHistory.actionTakenBy}}</td>

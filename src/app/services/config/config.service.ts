@@ -31,7 +31,7 @@ import * as config from 'assets/config.json';
 
 const commonIP = 'https://amritwprdev.piramalswasthya.org/';
 const IP1097 = 'https://amritwprdev.piramalswasthya.org/';
-const telephonyServerIP = 'http://192.168.45.55/';
+const telephonyServerIP = 'https://uatcz.piramalswasthya.org/';
 const adminIP = 'https://amritwprdev.piramalswasthya.org/';
 
 @Injectable()

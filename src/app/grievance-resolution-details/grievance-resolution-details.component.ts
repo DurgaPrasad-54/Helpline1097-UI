@@ -158,7 +158,7 @@ export class GrievanceResolutionDetailsComponent implements OnInit {
 
   getPreviousTransactionHistory() {
     let dialog = this.dialog.open(GrievanceTransactionDetailsComponent, {
-      width: '700px',
+      width: '800px',
       disableClose: true,
       data: this.transactionList
     });
