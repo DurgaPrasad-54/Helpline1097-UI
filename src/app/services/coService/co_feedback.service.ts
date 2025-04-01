@@ -43,6 +43,7 @@ export class CoFeedbackService {
     _getDesignationsURL = this._baseurl + 'designation/get'
     // _getFeedbackHistoryByID = this._baseurl + 'services/getFeedbacksHistory'
     _getFeedbackHistory = this._commonUrl + 'feedback/getFeedbacksList';
+     saveComplaintResolutionURL = this._commonUrl + 'saveComplaintResolution'
     constructor(
         private _http: AuthorizationWrapper,
         private _config: ConfigService,
@@ -72,6 +73,12 @@ export class CoFeedbackService {
     getFeedbackHistoryById(id: any, serviceID: any) {
         return this._http.post(this._getFeedbackHistory, { 'beneficiaryRegID': id, 'serviceID': serviceID })
             .map(this.extractData).catch(this.handleError);
+    }
+
+    saveComplaintResolution(data: any) {
+        return this._httpInterceptor.post(this.saveComplaintResolutionURL, data)
+            .map(this.extractData)
+            .catch(this.handleError);
     }
 
     extractData(response: Response) {

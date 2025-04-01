@@ -112,7 +112,7 @@
           <div class="clearfix"></div>
           <div
             class="col-xs-12 col-sm-12 col-md-6 col-lg-6 pull-left"
-            *ngIf="showSlider && isEverwell != 'yes'"
+            *ngIf="showSlider && isEverwell !== 'yes' && isGrievance !== 'yes'"
           >
             <md-checkbox
               ngDefaultControl
@@ -209,7 +209,7 @@
       </div>
       <div
         class="col-xs-12 col-sm-12 col-md-6 col-lg-5 m-b-20"
-        *ngIf="isEverwell != 'yes'"
+        *ngIf="isEverwell !== 'yes' && isGrievance !== 'yes'"
       >
         <label class="control-label m-t-20 m-b-10" for="callSummary">
           {{ currentLanguageSet?.tableHeading }}
@@ -252,7 +252,7 @@
       <div
         class="col-xs-12 col-sm-12 col-md-6 col-lg-5 m-b-20"
         style="padding: 0px"
-        *ngIf="isEverwell != 'yes'"
+        *ngIf="isEverwell !== 'yes' && isGrievance !== 'yes'"
       >
         <button
           *ngIf="
@@ -307,7 +307,7 @@
         </button>
       </div>
 
-      <div class="clearfix" *ngIf="isEverwell === 'yes'"></div>
+      <div class="clearfix" *ngIf="isEverwell === 'yes' || isGrievance === 'yes'"></div>
       <button
         md-raised-button
         color="accent"
@@ -324,7 +324,7 @@
         (click)="
           closeCall(Form.value, $event.currentTarget.value); Form.reset()
         "
-        *ngIf="isEverwell === 'yes'"
+        *ngIf="isEverwell === 'yes' ||  isGrievance === 'yes'"
       >
         {{ currentLanguageSet?.submitClose }}
       </button>

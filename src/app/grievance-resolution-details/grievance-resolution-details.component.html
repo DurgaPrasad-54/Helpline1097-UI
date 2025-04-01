@@ -1,0 +1,75 @@
+<div class="container-fluid">
+  <div  class="row">
+  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <label class="pull-left">
+      <h4 class="f-s-b m-b-10 m-t-20">{{currentLanguageSet?.complaintDetails}}</h4>
+    </label>
+
+    <div class="col-12" style="text-align: end">
+    <span class="font-history-label">{{currentLanguageSet?.previousTransactionHistory}}</span>
+    <button
+      type="button"
+      mdTooltip="{{currentLanguageSet?.previousTransactionDetails}}"
+      id="previousTransactionHistory"
+      class="mat_icon_blue cursorPointer m-t-10"
+      color="primary"
+      (click)="getPreviousTransactionHistory()"
+    >
+      <md-icon class="md-18 historyIcon">history</md-icon>
+    </button>
+  </div>
+  </div>
+</div>
+
+
+
+<div class="container-fluid">
+  <div class="row">
+    <form id="complaintResolutionForm" #form="ngForm" autocomplete="off">
+      <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 m-t-15">
+        <md-input-container  [style.width]="'100%'">
+          <input  mdInput disabled placeholder="{{currentLanguageSet?.complaintID}}" name="complaintID"
+            [(ngModel)]="complaintID">
+        </md-input-container>
+      </div>
+    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 m-t-15">
+      <md-input-container  [style.width]="'100%'">
+        <input  mdInput disabled placeholder="{{currentLanguageSet?.subjectOfComplaint}}" name="complaintSubject"
+          [(ngModel)]="complaintSubject">
+      </md-input-container>
+  </div>
+      <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+        <md-input-container [style.width]="'100%'">
+        <textarea textAreaValidator  disabled #complaintDesc="ngModel" mdInput placeholder="{{currentLanguageSet?.complaint}}" rows="2"
+        name="complaint" [(ngModel)]="complaint" maxlength="5000"></textarea>
+        </md-input-container>
+    </div>
+      <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+        <md-input-container [style.width]="'100%'">
+        <textarea textAreaValidator  #complaintRemark="ngModel" mdInput placeholder="{{currentLanguageSet?.remarks}}" rows="2"
+        name="remark" [(ngModel)]="remark" maxlength="5000" (keyup)="updateCount()" [required]="complaintResolution && complaintResolution === 'Unresolved'"></textarea>
+        </md-input-container>
+    </div>
+
+    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 m-t-15">
+       
+      <md-select required #compResolution="ngModel" placeholder="{{currentLanguageSet?.complaintResolution}}" [style.width]="'100%'" [(ngModel)]="complaintResolution"
+        name="complaintResolution">
+        <md-option *ngFor="let resolutionValue of resolutionMaster" [value]="resolutionValue">
+          {{resolutionValue}}
+        </md-option>
+      </md-select>
+      
+  </div>
+
+
+      <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 p-t-lg-15 m-t-15">
+        <button type="button" md-raised-button color="accent" class="pull-right font-regular  m-t-15" (click)="submitComplaintResolution()" [disabled]="form.invalid">
+          {{currentLanguageSet?.submit}}</button>
+      </div>
+     
+    </form>
+
+  
+  </div>
+</div>

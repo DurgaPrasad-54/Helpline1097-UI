@@ -107,10 +107,13 @@ export class InnerpageComponent implements OnInit {
   transferInProgress: Boolean = false;
   zoneName: any;
   everwellFullname: string;
+  grievanceBenFullname: string;
   EverwellBeneficiaryRegID: string;
   everwellPrimaryNumber: string;
   isEverwell: string = "No";
+  isGrievance: string = "No";
   everwellSelectedBenData: any;
+  grievanceSelectedBenData: any;
   everwellState: any;
   everwellDistrict: any;
   everwellGender: any;
@@ -222,6 +225,12 @@ export class InnerpageComponent implements OnInit {
     this.getAgentStatus();
     this.getAgentCallDetails();
     this.isEverwell = this.sessionstorage.getItem("isEverwellCall");
+    this.isGrievance = this.sessionstorage.getItem("isGrievanceCall");
+
+    if(this.isGrievance && this.isGrievance === "yes") {
+      this.grievanceSelectedBenData = this.getCommonData.outboundGrievanceData;
+      this.getCommonData.beneficiaryRegID  = this.grievanceSelectedBenData.beneficiaryRegID;
+    }
 
     this.fetchLanguageSet();
   }
@@ -501,6 +510,7 @@ export class InnerpageComponent implements OnInit {
         (response) => {
           this.sessionstorage.removeItem("isOnCall");
           this.sessionstorage.removeItem("isEverwellCall");
+          this.sessionstorage.removeItem("isGrievanceCall");
           this.sessionstorage.removeItem("apiman_key");
           this.sessionstorage.removeItem("setLanguage");
           this.authService.removeToken();
@@ -511,6 +521,7 @@ export class InnerpageComponent implements OnInit {
         (err) => {
           this.sessionstorage.removeItem("isOnCall");
           this.sessionstorage.removeItem("isEverwellCall");
+          this.sessionstorage.removeItem("isGrievanceCall");
           this.sessionstorage.removeItem("apiman_key");
           this.sessionstorage.removeItem("setLanguage");
           this.authService.removeToken();
@@ -530,6 +541,7 @@ export class InnerpageComponent implements OnInit {
               (response) => {
                 this.sessionstorage.removeItem("isOnCall");
                 this.sessionstorage.removeItem("isEverwellCall");
+                this.sessionstorage.removeItem("isGrievanceCall");
                 this.sessionstorage.removeItem("apiman_key");
                 this.sessionstorage.removeItem("setLanguage");
                 this.authService.removeToken();
@@ -540,6 +552,7 @@ export class InnerpageComponent implements OnInit {
               (err) => {
                 this.sessionstorage.removeItem("isOnCall");
                 this.sessionstorage.removeItem("isEverwellCall");
+                this.sessionstorage.removeItem("isGrievanceCall");
                 this.sessionstorage.removeItem("apiman_key");
                 this.sessionstorage.removeItem("setLanguage");
                 this.getCommonData.appLanguage = "English";
@@ -599,7 +612,7 @@ export class InnerpageComponent implements OnInit {
           return item.callGroupType.toLowerCase().startsWith("transfer");
         });
         if (
-          transferObj &&
+          transferObj && transferObj.length > 0 && 
           transferObj[0].callTypes !== undefined &&
           transferObj[0].callTypes !== null
         ) {
@@ -614,11 +627,12 @@ export class InnerpageComponent implements OnInit {
           if (transferObj && transferObj[0].callTypeID) {
             this.transferCallID = transferObj[0].callTypeID;
           }
-        } else {
-          this.remarksMessage.alert(
-            this.currentlanguageSet.failedToGetCallTypes
-          );
-        }
+        } 
+        // else {
+        //   this.remarksMessage.alert(
+        //     this.currentlanguageSet.failedToGetCallTypes
+        //   );
+        // }
 
         for (let i = 0; i < response.length; i++) {
           if (response[i].callGroupType.startsWith("Wrapup")) {
@@ -706,7 +720,7 @@ export class InnerpageComponent implements OnInit {
       this.getAgentStatus();
       console.log("this.isEverwell ", this.isEverwell);
 
-      if (this.isEverwell != "yes") {
+      if (this.isEverwell !== "yes" && this.isGrievance !== "yes") {
         this.disconnectCall();
       }
       this.startCallWraupup();
@@ -759,7 +773,41 @@ export class InnerpageComponent implements OnInit {
       );
 
       console.log("everwell obj", outboundObj);
-    }
+    } else if (
+        this.isGrievance &&
+        this.isGrievance === "yes"
+      ) {
+        let grievanceData = this._common.outboundGrievanceData;
+        this.beneficiaryRegID = grievanceData.beneficiaryRegID;
+        let outboundObj = {};
+          outboundObj["complaintID"] = grievanceData.complaintID;
+          outboundObj["assignedUserID"] = this._common.uid;
+          outboundObj["isCompleted"] = true;
+          outboundObj["beneficiaryRegId"] = this.beneficiaryRegID;
+          outboundObj["callTypeID"] =   this.wrapupCallID === null || this.wrapupCallID === undefined
+          ? null
+          : this.wrapupCallID.toString();
+          outboundObj["benCallID"] = this.getCommonData.callData.benCallID;
+          outboundObj["callId"] = this._common.callID;
+          outboundObj["providerServiceMapId"] =
+            this.getCommonData.current_service.serviceID;
+          outboundObj["requestedServiceID"] = null;
+          outboundObj["preferredLanguageName"] = "All";
+          outboundObj["createdBy"] = this._common.uname;
+
+
+        this._callServices
+          .closeGrievanceOutBoundCall(outboundObj)
+          .subscribe(
+            (response) => {
+              console.log("grievance data updated");
+            },
+            (err) => {
+              this.remarksMessage.alert(err.status, "error");
+            }
+          );
+      }
+    
 
     let requestObj = {};
     requestObj["benCallID"] = this.getCommonData.callData.benCallID;
@@ -807,7 +855,9 @@ export class InnerpageComponent implements OnInit {
             this.remarksMessage.alert(message, "success");
             this.sessionstorage.removeItem("isOnCall");
             this.sessionstorage.removeItem("isEverwellCall");
+            this.sessionstorage.removeItem("isGrievanceCall");
             this.basicrouter.navigate(["/MultiRoleScreenComponent/dashboard"]);
+            this._common.outboundGrievanceData = null;
             this._common.everwellCallNotConnected = null;
           }
         },

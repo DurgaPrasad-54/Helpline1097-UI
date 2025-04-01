@@ -131,25 +131,25 @@ export class ActivityThisWeekComponent implements OnInit {
     );
   }
 
-agentLoginStatus(){
-  this.callService.switchToOutbound(this.getCommonData.cZentrixAgentID).subscribe((res) => {
-    // if(res.errorMessage.toLowerCase().contains("already in MANUAL mode")){
-    //   this.router.navigate(['/MultiRoleScreenComponent/OutboundCallWorklistsComponent']);
-    // }
-    this.getCommonData.current_campaign = 'OUTBOUND';
-    this.sessionstorage.setItem("current_campaign", 'OUTBOUND');
-    this.router.navigate(['/MultiRoleScreenComponent/OutboundCallWorklistsComponent']);
-  }, (err) => {
-    let errorText: string;
-    errorText= err.errorMessage;
-    //if (err.errorMessage === "Agent 2016 is already in MANUAL mode")
-    if(errorText.includes("already in MANUAL mode")) {
-      this.router.navigate(['/MultiRoleScreenComponent/OutboundCallWorklistsComponent']);
-  }
-  else
-    this.message.alert(err.errorMessage, 'error');
+  agentLoginStatus(){
   
-  })
-}
+     
+   this.callService.switchToOutbound(this.getCommonData.cZentrixAgentID).subscribe((res) => {
+
+     this.getCommonData.current_campaign = 'OUTBOUND';
+     this.sessionstorage.setItem("current_campaign", 'OUTBOUND');
+     this.router.navigate(['/MultiRoleScreenComponent/OutboundCallWorklistsComponent']);
+   }, (err) => {
+     let errorText: string;
+     errorText= err.errorMessage;
+   
+     if(errorText.includes("already in MANUAL mode")) {
+       this.router.navigate(['/MultiRoleScreenComponent/OutboundCallWorklistsComponent']);
+   }
+   else
+     this.message.alert(err.errorMessage, 'error');
+   
+   })
+ }
 
 }

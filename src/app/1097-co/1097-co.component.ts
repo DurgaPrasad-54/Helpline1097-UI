@@ -83,6 +83,8 @@ export class helpline1097CoComponent implements OnInit {
   @ViewChild("cancel") cancel;
   submitCheck: boolean;
   currentLanguageSet: any;
+  isGrievance: string;
+  enableGrievanceResolution: boolean = false;
 
   constructor(
     public getCommonData: dataService,
@@ -143,6 +145,7 @@ export class helpline1097CoComponent implements OnInit {
     // });
     this.disableBack = false;
     this.isEverwell = this.sessionstorage.getItem("isEverwellCall");
+    this.isGrievance = this.sessionstorage.getItem("isGrievanceCall");
 
     this.submitCheck = this.getCommonData.checkEverwellResponse;
     console.log("submitCheck", this.submitCheck);
@@ -180,12 +183,20 @@ export class helpline1097CoComponent implements OnInit {
   OUT: boolean;
   ngOnChanges() {
     this.submitCheck = this.getCommonData.checkEverwellResponse;
+    this.isEverwell = this.sessionstorage.getItem("isEverwellCall");
+    this.isGrievance = this.sessionstorage.getItem("isGrievanceCall");
     console.log("submitCheckOn", this.submitCheck);
     this.setLanguage(this.current_language);
-    if (this.getCommonData.current_campaign == "OUTBOUND") {
+    if (this.getCommonData.current_campaign === "OUTBOUND" && this.isGrievance === "yes") {
       this.OUT = true;
-    } else {
+      this.enableGrievanceResolution = true;
+    } 
+    else if (this.getCommonData.current_campaign === "OUTBOUND" && this.isEverwell === "yes") {
+      this.OUT = true;
+      this.enableGrievanceResolution = false;
+    }else {
       this.OUT = false;
+      this.enableGrievanceResolution = false;
     }
   }
 
@@ -289,6 +300,7 @@ export class helpline1097CoComponent implements OnInit {
     this.getCommonData.isCallDisconnected = false;
     this.sessionstorage.removeItem("isOnCall");
     this.sessionstorage.removeItem("isEverwellCall");
+    this.sessionstorage.removeItem("isGrievanceCall");
 
     this.basicrouter.navigate(["/MultiRoleScreenComponent/dashboard"], {
       queryParams: { compain: compain_type },
@@ -377,6 +389,46 @@ export class helpline1097CoComponent implements OnInit {
         }
       });
   }
+
+
+  openGrievanceDialog() {
+    this.dialogService
+      .confirm("Cancel Call ", this.currentLanguageSet.doYouWantToCancel)
+      .subscribe((response) => {
+        if (response) {
+          this.resetProvideServices = "2";
+          const id = jQuery(".carousel-inner div.active").index();
+          jQuery("#myCarouselGrievance").carousel(0);
+          jQuery("#one").parent().find("a").removeClass("active-tab");
+          jQuery("#one").find("a").addClass("active-tab");
+          jQuery("#btnClosure").attr("disabled", null);
+          this.ClearForm.clearFormSender("closure");
+          this.isCancelDisable = true;
+          this.isClosureDisable = false;
+          this.isNext = false;
+          this.isPrevious = false;
+          this.ReloadBenOutbound("reloadcall");
+        }
+      });
+  }
+
+  openGrievanceDialogClosure() {
+    this.dialogService
+      .confirm("Closure ", this.currentLanguageSet.doYouWantToCloseTheCall)
+      .subscribe((response) => {
+        if (response) {
+          this.resetProvideServices = "3";
+          jQuery("#myCarouselGrievance").carousel(1);
+          jQuery("#four").parent().find("a").removeClass("active-tab");
+          jQuery("#four").find("a").addClass("active-tab");
+          this.isClosureDisable = true;
+          this.isCancelDisable = false;
+          this.isNext = false;
+          this.isPrevious = true;
+        }
+      });
+  }
+
   getServiceHistory() {
     this.getHistory.emit(null);
   }

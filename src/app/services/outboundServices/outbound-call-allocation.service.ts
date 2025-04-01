@@ -39,6 +39,8 @@ export class OutboundCallAllocationService {
     private _geturl: string = this._baseurl + 'user/getUsersByProviderID';
     private _getRole_url: string = this._baseurl + 'user/getRolesByProviderID';
     private _allocateurl: string = this._baseurl + 'call/outboundAllocation';
+    private allocateGrievanceurl: string = this._baseurl + 'allocateGrievances';
+    private reallocateGrievanceurl: string = this._baseurl + 'reallocateGrievances';
     private _allocateEverwellUrl: string = this._baseurl + 'everwellCall/outboundAllocation';
     
 
@@ -107,6 +109,20 @@ export class OutboundCallAllocationService {
         return this.httpIntercept.post(this._allocateEverwellUrl, data)
             .map(this.extractData)
             .catch(this.handleError);
+
+    }
+    allocateGrievanceCallsToAgents(data: any, isAllocate: any) {
+
+        if(isAllocate) {
+        return this.httpIntercept.post(this.allocateGrievanceurl, data)
+            .map(this.extractData)
+            .catch(this.handleError);
+        }
+        else {
+            return this.httpIntercept.post(this.reallocateGrievanceurl, data)
+            .map(this.extractData)
+            .catch(this.handleError);
+        }
 
     }
     private extractData(response: Response) {

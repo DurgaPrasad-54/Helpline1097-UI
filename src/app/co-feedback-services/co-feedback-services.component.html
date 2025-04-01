@@ -31,6 +31,9 @@
       <label class="pull-left">
         <h4 class="f-s-b m-b-10 m-t-20">{{currentLanguageSet?.feedbackServices}}</h4>
       </label>
+      <mat-slide-toggle class="pull-right toggleMargin" *ngIf="showFormCondition" [(ngModel)]="beneficiaryConsent">
+        {{currentLanguageSet?.consentCaptured}}
+       </mat-slide-toggle>  
     </div>
   </div>
   <div class="row">

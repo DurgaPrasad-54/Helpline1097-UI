@@ -1,0 +1,83 @@
+<div class="container-fluid"> 
+  <div class="row">
+
+    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+      <label class="pull-left">
+        <h4 class="f-s-b m-b-10 m-t-20">{{currentLanguageSet?.grievanceOutboundCallAllocation}} </h4>
+      </label>
+    </div>
+    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+      <p class="pull-right m-t-10" style="color: #8a8a5c;"> {{currentLanguageSet?.noteDefaultCallsBetweenTodayAndNextSevenDays}}</p>
+    </div>
+    <div class="clearfix"></div>
+ 
+     <div class="row">
+      <form #getOutboundForm="ngForm" autocomplete="off">
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+          <md2-datepicker name="startDate" (keydown)="blockey($event)" placeholder="{{currentLanguageSet?.validFrom}}" required #startDate="ngModel" ngModel
+            [style.width]="'100%'" name="filterStartDate" [(ngModel)]="startOutboundDate" (change)="disableTable()"></md2-datepicker>
+        </div>
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+          <md2-datepicker name="endDate" (keydown)="blockey($event)" placeholder="{{currentLanguageSet?.validTill}}" required [min]="startDate.value" #endDate="ngModel"
+            ngModel [style.width]="'100%'" name="filterEndDate" [(ngModel)]="endOutboundDate" (change)="disableTable()"></md2-datepicker>
+          <br>
+          <span class="error_text" *ngIf="(endDate.value < startDate.value) && endDate.dirty">{{currentLanguageSet?.endDateCannotBeBeforeStartDate}}</span>
+        </div>
+        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 p-b-1-5">
+         
+            <md-select required placeholder="{{currentLanguageSet?.selectLanguage}}" [style.width]="'100%'" #language="ngModel" ngModel name="preferredLanguageName"
+              [(ngModel)]="preferredLanguageName">
+              <md-option value=undefined> All </md-option>
+              <md-option *ngFor="let lang of languages" [value]="lang">
+                {{lang.languageName}}
+              </md-option>
+            </md-select>
+           
+        </div>
+        <div class="col-xs-12 col-sm-6 col-md-12 col-lg-3 m-t-10 m-b-10">
+          <button type="button" class="hidden-md hidden-xs" md-raised-button color="accent" [disabled]="startDate.invalid || endDate.invalid || language.invalid"
+          (click)="getUnallocateCall(getOutboundForm.value)">{{currentLanguageSet?.search}}</button>
+        <button type="button" class="visible-md visible-xs pull-right" md-raised-button color="accent" [disabled]="startDate.invalid || endDate.invalid || language.invalid"
+          (click)="getUnallocateCall(getOutboundForm.value)">{{currentLanguageSet?.search}}</button>
+        </div>
+      </form>
+    </div>
+    
+
+  <div class="clearfix"></div>
+  <div class="row" *ngIf="enableTableData">
+    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+
+      <div class="table-responsive">
+        <table id="outbondListTable" class="table table-bordered table-striped" aria-describedby="OutboundSearchRecordList" >
+          <thead>
+            <tr>
+              <th id="languageName">{{currentLanguageSet?.languageName}}</th>
+              <th id="noofRecords">{{currentLanguageSet?.noOfRecords}}</th>
+            </tr>
+          </thead>
+
+          <tbody *ngIf="unAllocatedGrievanceCalls?.length>0">
+            <tr *ngFor="let item of unAllocatedGrievanceCalls">
+              <th id="language">{{item?.language}}</th>
+              <td>{{item?.count}}
+                <button type="button" *ngIf="item.language !== 'All'" [disabled]="(item?.count === 0 )" (click)="allocateCalls(startDate.value,endDate.value,item?.language,item?.count)"
+                  md-raised-button color="accent" class="pull-right">{{currentLanguageSet?.allocate}}</button>
+                  
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="clearfix"></div>
+    <div class="row" *ngIf="showFlag">
+      <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <app-grievance-outbound-call-allocate-records (outboundCount)="assignCount($event)" [outboundCallRequests]="records"></app-grievance-outbound-call-allocate-records>
+      </div>
+    </div>
+  </div>
+  </div>
+
+  <div class="clearfix"></div>
+</div>

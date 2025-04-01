@@ -255,10 +255,10 @@ export class ReallocateCallsComponent implements OnInit {
       "is1097": true
     }
 
-    if (this.reallocationForm.value.startDate != '' && this.reallocationForm.value.startDate != null) {
+    if (this.reallocationForm.value.startDate ) {
       reqObj["filterStartDate"] = new Date((this.reallocationForm.value.startDate) - 1 * (this.reallocationForm.value.startDate.getTimezoneOffset() * 60 * 1000)).toJSON().slice(0, 10) + "T00:00:00.000Z";
     }
-    if (this.reallocationForm.value.endDate != '' && this.reallocationForm.value.endDate != null) {
+    if (this.reallocationForm.value.endDate) {
       reqObj["filterEndDate"] = new Date((this.reallocationForm.value.endDate) - 1 * (this.reallocationForm.value.endDate.getTimezoneOffset() * 60 * 1000)).toJSON().slice(0, 10) + "T23:59:59.999Z";
     }
 
