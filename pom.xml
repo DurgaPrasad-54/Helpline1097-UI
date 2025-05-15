@@ -6,7 +6,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.iemr.1097ui</groupId>
 	<artifactId>1097-ui</artifactId>
-	<version>1.0</version>
+	<version>3.1.0</version>
 	<name>1097-ui</name>
 	<description>Piramal - 1097: Module ui</description>
 	<packaging>war</packaging>
@@ -77,7 +77,7 @@
 	
 	<!-- install the necessary node_modules & compile in prod mode -->
 	<build>
-		<finalName>1097ui-v1.0</finalName>
+		<finalName>${artifactId}-${version}</finalName>
 		<plugins>
 			<plugin>
 				<artifactId>maven-clean-plugin</artifactId>
