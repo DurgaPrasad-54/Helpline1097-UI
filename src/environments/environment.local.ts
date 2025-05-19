@@ -21,15 +21,20 @@
 */
 
 
-
-// The file contents for the current environment will overwrite these during build.
-// The build system defaults to the dev environment which uses `environment.ts`, but if you do
-// `ng build --env=prod` then `environment.prod.ts` will be used instead.
-// The list of which env maps to which file can be found in `.angular-cli.json`.
-const sessionStorageEncKey = '<%= SESSION_STORAGE_ENC_KEY %>';
+const sessionStorageEncKey = '';
+const commonAPI = 'http://localhost:8083/';
+const adminAPI = 'http://localhost:8082/';
+const telephoneServer = 'http://uatcz.piramalswasthya.org/';
+const API1097 = 'http://localhost:8090/';
+const API104 = 'http://localhost:8081/';
  
 export const environment = {
-  production: false,
+  production: true,
   invalidCallType: 'Invalid',
   encKey: sessionStorageEncKey,
+  commonAPI: commonAPI,
+  ip1097: API1097,
+  telephoneServer: telephoneServer,
+  adminAPI: adminAPI,
+  ip104: API104,
 };
