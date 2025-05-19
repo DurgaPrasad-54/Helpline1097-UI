@@ -29,6 +29,7 @@ const TELEPHONY_SERVER = '<%= TELEPHONY_SERVER %>';
 
 export const environment = {
   production: true,
+  invalidCallType: 'Invalid',
   encKey: sessionStorageEncKey,
   commonAPI: COMMON_API,
   ip1097: IP1097,
