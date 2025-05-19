@@ -28,7 +28,7 @@ const telephoneServer = 'http://uatcz.piramalswasthya.org/';
 const API1097 = 'http://localhost:8090/';
  
 export const environment = {
-  production: true,
+  production: false,
   invalidCallType: 'Invalid',
   encKey: sessionStorageEncKey,
   commonAPI: commonAPI,
