@@ -26,7 +26,6 @@ const commonAPI = 'http://localhost:8083/';
 const adminAPI = 'http://localhost:8082/';
 const telephoneServer = 'http://uatcz.piramalswasthya.org/';
 const API1097 = 'http://localhost:8090/';
-const API104 = 'http://localhost:8081/';
  
 export const environment = {
   production: true,
@@ -36,5 +35,4 @@ export const environment = {
   ip1097: API1097,
   telephoneServer: telephoneServer,
   adminAPI: adminAPI,
-  ip104: API104,
 };
