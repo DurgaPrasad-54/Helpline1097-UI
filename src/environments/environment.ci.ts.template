@@ -22,9 +22,17 @@
 
 
 const sessionStorageEncKey = '<%= SESSION_STORAGE_ENC_KEY %>';
- 
+const COMMON_API = '<%= COMMON_API_BASE %>';
+const ADMIN_API = '<%= ADMIN_API_BASE %>';
+const IP1097 = '<%= HELPLINE1097_API_BASE %>';
+const TELEPHONY_SERVER = '<%= TELEPHONY_SERVER %>';
+
 export const environment = {
   production: true,
   invalidCallType: 'Invalid',
   encKey: sessionStorageEncKey,
+  commonAPI: COMMON_API,
+  ip1097: IP1097,
+  telephoneServer: TELEPHONY_SERVER,
+  adminAPI: ADMIN_API,
 };

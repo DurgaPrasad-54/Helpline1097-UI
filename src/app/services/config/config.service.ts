@@ -28,6 +28,7 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
 import * as config from 'assets/config.json';
+import { environment } from '../../../environments/environment';
 
 const commonIP = 'https://amritwprdev.piramalswasthya.org/';
 const IP1097 = 'https://amritwprdev.piramalswasthya.org/';
@@ -37,34 +38,13 @@ const adminIP = 'https://amritwprdev.piramalswasthya.org/';
 @Injectable()
 export class ConfigService {
 
-    // private _commonBaseURL: String = `${commonIP}commonapi-v1.0/`;
-    private _commonBaseURL: String = `https://amritwprdev.piramalswasthya.org/commonapi-v1.0/`;
-    // private _commonBaseURL: String=`http://localhost:8080/`;
-    // private openCommonURL: String = `${commonIP}commonapi-v1.0/`;
-    private openCommonURL: String = `https://amritwprdev.piramalswasthya.org/commonapi-v1.0/`;
-    private _helpline1097BaseURL: String = `${IP1097}1097api-v1.0/`;
-    private _telephonyServerURL: String = `${telephonyServerIP}`;
+    private _commonBaseURL: String = environment.commonAPI;
+    private openCommonURL: String = environment.commonAPI;
+    private _helpline1097BaseURL: String = environment.ip1097;
+    private _telephonyServerURL: String = environment.telephoneServer;
     private _localeString = 'en-in';
-    private adminBaseUrl = `${adminIP}adminapi-v1.0/`;
-    private _opencommonBaseURL: String = `${commonIP}commonapi-v1.0/`;
-
-    // private _commonBaseURL: String = 'http://deviemr.piramalswasthya.org:8080/commonapi-v1.0/';
-    // private _helpline1097BaseURL: String = 'http://deviemr.piramalswasthya.org:8080/1097api-v1.0/';
-    // private _telephonyServerURL: String = 'http://helplines.piramalswasthya.org/';
-    // private _localeString = 'en-in';
-    // private _loginUrl = 'http://deviemr.piramalswasthya.org:8080/commonui-v1.0';
-    // private adminBaseUrl = 'http://deviemr.piramalswasthya.org:8080/adminapi-v1.0/';
-
-    //for APIMAN
-    // private _commonBaseURL: String = "https://amritwprdev.piramalswasthya.org/apiman-gateway/IEMR/Common/1.0/";
-    // private openCommonURL: String = "https://amritwprdev.piramalswasthya.org/apiman-gateway/IEMR/Common/open/";
-    // private _helpline1097BaseURL: String = 'https://amritwprdev.piramalswasthya.org/apiman-gateway/IEMR/1097/1.0/';
-    // private _commonBaseURL: String = 'http://l-185000861.wipro.com:8080/commonapi-v1.0/';
-    // private _helpline1097BaseURL: String = 'http://l-185000861.wipro.com:8080/1097api-v1.0/';
-    // private _telephonyServerURL: String = 'http://10.208.122.99/';
-    // private _localeString = 'en-in';
-    // private _loginUrl = 'http://l-185000861.wipro.com:8080/commonui-v1.0';
-    // private adminBaseUrl = 'http://l-185000861.wipro.com:8080/adminapi-v1.0/';
+    private adminBaseUrl = environment.adminAPI;
+    private _opencommonBaseURL: String = environment.commonAPI;
     public defaultWrapupTime: any = 120;
 
     constructor() {
