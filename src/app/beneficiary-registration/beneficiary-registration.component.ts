@@ -1082,13 +1082,14 @@ export class BeneficiaryRegistrationComponent implements OnInit, DoCheck {
     this.updatedObj.lastName = this.LastName;
     this.updatedObj.genderID = this.GenderID;
     this.updatedObj.age = this.age;
-    this.updatedObj.actualAge = Number(this.age);
+    this.updatedObj.actualAge = Number(this.updatedObj.age);
     if (this.DOB) {
       this.DOB = new Date(this.DOB);
       this.updatedObj.dOB = new Date((this.DOB) - 1 * (this.DOB.getTimezoneOffset() * 60 * 1000)).toJSON();
     } else {
       this.updatedObj.dOB = undefined;
     }
+    this.updatedObj.dob = this.updatedObj.dOB;
     this.updatedObj.titleId = this.TitleId;
     this.updatedObj.maritalStatusID = this.MaritalStatusID;
     // this.updatedObj.parentBenRegID = this.ParentBenRegID;
@@ -1277,7 +1278,6 @@ export class BeneficiaryRegistrationComponent implements OnInit, DoCheck {
     }
 
     // ends
-    this.updatedObj.dob = this.DOB;
     this.updatedObj.govtIdentityNo = this.aadharNo;
     this.updatedObj.govtIdentityTypeID = this.identityType;
     if (!this.updatedObj.i_bendemographics.beneficiaryRegID) {
