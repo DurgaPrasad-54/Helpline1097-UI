@@ -69,6 +69,7 @@ export class loginContentClass implements OnInit, OnDestroy {
 
   previlageObj: any = [];
   encryptPassword: any;
+  captchaToken: string;
 
   constructor(public loginservice: loginService,private sessionstorage:sessionStorageService, public router: Router, public alertService: ConfirmationDialogsService,
     public dataSettingService: dataService, private czentrixServices: CzentrixServices, private socketService: SocketService,   private httpService: InterceptedHttp) {
@@ -239,7 +240,7 @@ export class loginContentClass implements OnInit, OnDestroy {
     // this.password=this.encryptedVar.substr(0, 16);
     console.error("response");
       this.loginservice
-      .authenticateUser(this.userID, this.encryptPassword, doLogOut)
+      .authenticateUser(this.userID, this.encryptPassword, doLogOut,this.captchaToken)
       .subscribe(
         (response: any) => {
           // console.error("response",response);
@@ -293,7 +294,7 @@ export class loginContentClass implements OnInit, OnDestroy {
       (userLogOutRes: any) => {
       if(userLogOutRes && userLogOutRes.data.response) {
     this.loginservice
-      .authenticateUser(this.userID, this.encryptPassword, doLogOut)
+      .authenticateUser(this.userID, this.encryptPassword, doLogOut,this.captchaToken)
       .subscribe(
         (response: any) => {
           // console.log("response.Jwttoken",response)
@@ -314,6 +315,7 @@ export class loginContentClass implements OnInit, OnDestroy {
       else
       {
             this.alertService.alert(userLogOutRes.errorMessage, 'error');
+            this.captchaToken = '';
       }
       });
   }
@@ -321,6 +323,7 @@ export class loginContentClass implements OnInit, OnDestroy {
   successCallback(response: any, userID: any, password: any) {
     this.dataSettingService.current_campaign=undefined;
     this.loading = false;
+    this.captchaToken = '';
     console.log(response);
     if (response !== undefined && response !== null) {
       if(response.previlegeObj !== undefined && response.previlegeObj !== null) {
@@ -371,6 +374,7 @@ export class loginContentClass implements OnInit, OnDestroy {
   errorCallback(error: any) {
     if (error.status) {
       this.loginResult = error.errorMessage;
+      this.captchaToken = '';
     } else {
       this.loginResult = 'Server seems to busy please try after some time';
     }
@@ -396,6 +400,11 @@ export class loginContentClass implements OnInit, OnDestroy {
   hidePWD() {
     this.dynamictype = 'password';
   }
+
+  onCaptchaResolved(token: string) {
+    this.captchaToken = token;
+  }
+  
   ngOnDestroy() {
     if (this.logoutUserFromPreviousSessionSubscription) {
       this.logoutUserFromPreviousSessionSubscription.unsubscribe();

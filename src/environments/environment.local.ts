@@ -26,6 +26,8 @@ const commonAPI = 'http://localhost:8083/';
 const adminAPI = 'http://localhost:8082/';
 const telephoneServer = 'http://uatcz.piramalswasthya.org/';
 const API1097 = 'http://localhost:8090/';
+const siteKey = ''
+const captchaChallengeURL = ''
  
 export const environment = {
   production: false,
@@ -35,4 +37,6 @@ export const environment = {
   ip1097: API1097,
   telephoneServer: telephoneServer,
   adminAPI: adminAPI,
+  siteKey:siteKey,
+  captchaChallengeURL:captchaChallengeURL
 };
