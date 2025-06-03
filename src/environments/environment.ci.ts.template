@@ -26,8 +26,8 @@ const COMMON_API = '<%= COMMON_API_BASE %>';
 const ADMIN_API = '<%= ADMIN_API_BASE %>';
 const IP1097 = '<%= HELPLINE1097_API_BASE %>';
 const TELEPHONY_SERVER = '<%= TELEPHONY_SERVER %>';
-const siteKey = ''
-const captchaChallengeURL = '<%= CHALLENGE_URL%>'
+const siteKey = '<%= SITE_KEY %>';
+const captchaChallengeURL = '<%= CAPTCHA_CHALLENGE_URL %>';
 
 export const environment = {
   production: true,
@@ -38,5 +38,5 @@ export const environment = {
   telephoneServer: TELEPHONY_SERVER,
   adminAPI: ADMIN_API,
   siteKey:siteKey,
-
+  captchaChallengeURL: captchaChallengeURL
 };

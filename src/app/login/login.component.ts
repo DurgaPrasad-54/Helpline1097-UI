@@ -262,9 +262,7 @@ export class loginContentClass implements OnInit, OnDestroy {
     
       ); 
    
-    
-     
-      
+      this.captchaToken = '';
   }
   
 
@@ -318,6 +316,7 @@ export class loginContentClass implements OnInit, OnDestroy {
             this.captchaToken = '';
       }
       });
+      this.captchaToken = '';
   }
 
   successCallback(response: any, userID: any, password: any) {
