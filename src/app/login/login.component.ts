@@ -21,7 +21,7 @@
 */
 
 
-import { Component,forwardRef, Inject, OnDestroy, OnInit } from '@angular/core';
+import { Component,forwardRef, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { loginService } from '../services/loginService/login.service';
 import { dataService } from '../services/dataService/data.service';
 import { CzentrixServices } from '../services/czentrix/czentrix.service';
@@ -47,6 +47,7 @@ import { sessionStorageService } from 'app/services/sessionStorageService/sessio
 })
 
 export class loginContentClass implements OnInit, OnDestroy {
+  @ViewChild('captchaCmp') captchaCmp: any;
   model: any = {};
   userID: any;
   password: any;
@@ -262,8 +263,8 @@ export class loginContentClass implements OnInit, OnDestroy {
     
       ); 
    
-      this.captchaToken = '';
-  }
+      this.resetCaptcha();
+    }
   
 
   // login(doLogOut) {
@@ -313,16 +314,16 @@ export class loginContentClass implements OnInit, OnDestroy {
       else
       {
             this.alertService.alert(userLogOutRes.errorMessage, 'error');
-            this.captchaToken = '';
-      }
+            this.resetCaptcha();
+          }
       });
-      this.captchaToken = '';
-  }
+      this.resetCaptcha();
+    }
 
   successCallback(response: any, userID: any, password: any) {
     this.dataSettingService.current_campaign=undefined;
     this.loading = false;
-    this.captchaToken = '';
+    this.resetCaptcha();
     console.log(response);
     if (response !== undefined && response !== null) {
       if(response.previlegeObj !== undefined && response.previlegeObj !== null) {
@@ -373,12 +374,12 @@ export class loginContentClass implements OnInit, OnDestroy {
   errorCallback(error: any) {
     if (error.status) {
       this.loginResult = error.errorMessage;
-      this.captchaToken = '';
     } else {
       this.loginResult = 'Server seems to busy please try after some time';
     }
     // this.loading = false;
     console.log(error);
+    this.resetCaptcha();
   };
   getLoginKey(userId, password) {
     this.czentrixServices.getLoginKey(userId, password).subscribe((response) => {
@@ -402,6 +403,13 @@ export class loginContentClass implements OnInit, OnDestroy {
 
   onCaptchaResolved(token: string) {
     this.captchaToken = token;
+  }
+
+  resetCaptcha() {
+    if (this.captchaCmp && typeof this.captchaCmp.reset === 'function') {
+      this.captchaCmp.reset();
+      this.captchaToken = '';
+    }
   }
   
   ngOnDestroy() {
