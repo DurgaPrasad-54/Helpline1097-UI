@@ -33,6 +33,8 @@ import { InterceptedHttp } from 'app/http.interceptor';
 // import { SHA256, enc } from 'crypto-js';
 import * as CryptoJS from 'crypto-js';
 import { sessionStorageService } from 'app/services/sessionStorageService/session-storage.service';
+import { CaptchaComponent } from 'app/captcha/captcha.component';
+import { environment } from 'environments/environment';
 // import { AES } from 'crypto-js';
 // import { SHA256 } from 'crypto-js';
 
@@ -47,7 +49,7 @@ import { sessionStorageService } from 'app/services/sessionStorageService/sessio
 })
 
 export class loginContentClass implements OnInit, OnDestroy {
-  @ViewChild('captchaCmp') captchaCmp: any;
+  @ViewChild('captchaCmp') captchaCmp: CaptchaComponent | undefined;
   model: any = {};
   userID: any;
   password: any;
@@ -71,6 +73,7 @@ export class loginContentClass implements OnInit, OnDestroy {
   previlageObj: any = [];
   encryptPassword: any;
   captchaToken: string;
+  enableCaptcha = environment.enableCaptcha;
 
   constructor(public loginservice: loginService,private sessionstorage:sessionStorageService, public router: Router, public alertService: ConfirmationDialogsService,
     public dataSettingService: dataService, private czentrixServices: CzentrixServices, private socketService: SocketService,   private httpService: InterceptedHttp) {
@@ -293,7 +296,7 @@ export class loginContentClass implements OnInit, OnDestroy {
       (userLogOutRes: any) => {
       if(userLogOutRes && userLogOutRes.data.response) {
     this.loginservice
-      .authenticateUser(this.userID, this.encryptPassword, doLogOut,this.captchaToken)
+      .authenticateUser(this.userID, this.encryptPassword, doLogOut,this.enableCaptcha && this.captchaToken)
       .subscribe(
         (response: any) => {
           // console.log("response.Jwttoken",response)
@@ -406,7 +409,7 @@ export class loginContentClass implements OnInit, OnDestroy {
   }
 
   resetCaptcha() {
-    if (this.captchaCmp && typeof this.captchaCmp.reset === 'function') {
+    if (this.enableCaptcha && this.captchaCmp && typeof this.captchaCmp.reset === 'function') {
       this.captchaCmp.reset();
       this.captchaToken = '';
     }
