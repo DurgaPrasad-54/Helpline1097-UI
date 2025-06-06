@@ -244,7 +244,7 @@ export class loginContentClass implements OnInit, OnDestroy {
     // this.password=this.encryptedVar.substr(0, 16);
     console.error("response");
       this.loginservice
-      .authenticateUser(this.userID, this.encryptPassword, doLogOut,this.captchaToken)
+      .authenticateUser(this.userID, this.encryptPassword, doLogOut,this.enableCaptcha ? this.captchaToken : undefined)
       .subscribe(
         (response: any) => {
           // console.error("response",response);
@@ -266,7 +266,6 @@ export class loginContentClass implements OnInit, OnDestroy {
     
       ); 
    
-      this.resetCaptcha();
     }
   
 
@@ -296,7 +295,7 @@ export class loginContentClass implements OnInit, OnDestroy {
       (userLogOutRes: any) => {
       if(userLogOutRes && userLogOutRes.data.response) {
     this.loginservice
-      .authenticateUser(this.userID, this.encryptPassword, doLogOut,this.enableCaptcha && this.captchaToken)
+      .authenticateUser(this.userID, this.encryptPassword, doLogOut,this.enableCaptcha ? this.captchaToken : undefined)
       .subscribe(
         (response: any) => {
           // console.log("response.Jwttoken",response)
@@ -320,13 +319,11 @@ export class loginContentClass implements OnInit, OnDestroy {
             this.resetCaptcha();
           }
       });
-      this.resetCaptcha();
     }
 
   successCallback(response: any, userID: any, password: any) {
     this.dataSettingService.current_campaign=undefined;
     this.loading = false;
-    this.resetCaptcha();
     console.log(response);
     if (response !== undefined && response !== null) {
       if(response.previlegeObj !== undefined && response.previlegeObj !== null) {
