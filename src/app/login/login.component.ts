@@ -21,7 +21,7 @@
 */
 
 
-import { Component,forwardRef, Inject, OnDestroy, OnInit } from '@angular/core';
+import { Component,forwardRef, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { loginService } from '../services/loginService/login.service';
 import { dataService } from '../services/dataService/data.service';
 import { CzentrixServices } from '../services/czentrix/czentrix.service';
@@ -33,6 +33,8 @@ import { InterceptedHttp } from 'app/http.interceptor';
 // import { SHA256, enc } from 'crypto-js';
 import * as CryptoJS from 'crypto-js';
 import { sessionStorageService } from 'app/services/sessionStorageService/session-storage.service';
+import { CaptchaComponent } from 'app/captcha/captcha.component';
+import { environment } from 'environments/environment';
 // import { AES } from 'crypto-js';
 // import { SHA256 } from 'crypto-js';
 
@@ -47,6 +49,7 @@ import { sessionStorageService } from 'app/services/sessionStorageService/sessio
 })
 
 export class loginContentClass implements OnInit, OnDestroy {
+  @ViewChild('captchaCmp') captchaCmp: CaptchaComponent | undefined;
   model: any = {};
   userID: any;
   password: any;
@@ -69,6 +72,8 @@ export class loginContentClass implements OnInit, OnDestroy {
 
   previlageObj: any = [];
   encryptPassword: any;
+  captchaToken: string;
+  enableCaptcha = environment.enableCaptcha;
 
   constructor(public loginservice: loginService,private sessionstorage:sessionStorageService, public router: Router, public alertService: ConfirmationDialogsService,
     public dataSettingService: dataService, private czentrixServices: CzentrixServices, private socketService: SocketService,   private httpService: InterceptedHttp) {
@@ -239,7 +244,7 @@ export class loginContentClass implements OnInit, OnDestroy {
     // this.password=this.encryptedVar.substr(0, 16);
     console.error("response");
       this.loginservice
-      .authenticateUser(this.userID, this.encryptPassword, doLogOut)
+      .authenticateUser(this.userID, this.encryptPassword, doLogOut,this.enableCaptcha ? this.captchaToken : undefined)
       .subscribe(
         (response: any) => {
           // console.error("response",response);
@@ -261,10 +266,7 @@ export class loginContentClass implements OnInit, OnDestroy {
     
       ); 
    
-    
-     
-      
-  }
+    }
   
 
   // login(doLogOut) {
@@ -293,7 +295,7 @@ export class loginContentClass implements OnInit, OnDestroy {
       (userLogOutRes: any) => {
       if(userLogOutRes && userLogOutRes.data.response) {
     this.loginservice
-      .authenticateUser(this.userID, this.encryptPassword, doLogOut)
+      .authenticateUser(this.userID, this.encryptPassword, doLogOut,this.enableCaptcha ? this.captchaToken : undefined)
       .subscribe(
         (response: any) => {
           // console.log("response.Jwttoken",response)
@@ -314,9 +316,10 @@ export class loginContentClass implements OnInit, OnDestroy {
       else
       {
             this.alertService.alert(userLogOutRes.errorMessage, 'error');
-      }
+            this.resetCaptcha();
+          }
       });
-  }
+    }
 
   successCallback(response: any, userID: any, password: any) {
     this.dataSettingService.current_campaign=undefined;
@@ -376,6 +379,7 @@ export class loginContentClass implements OnInit, OnDestroy {
     }
     // this.loading = false;
     console.log(error);
+    this.resetCaptcha();
   };
   getLoginKey(userId, password) {
     this.czentrixServices.getLoginKey(userId, password).subscribe((response) => {
@@ -396,6 +400,18 @@ export class loginContentClass implements OnInit, OnDestroy {
   hidePWD() {
     this.dynamictype = 'password';
   }
+
+  onCaptchaResolved(token: string) {
+    this.captchaToken = token;
+  }
+
+  resetCaptcha() {
+    if (this.enableCaptcha && this.captchaCmp && typeof this.captchaCmp.reset === 'function') {
+      this.captchaCmp.reset();
+      this.captchaToken = '';
+    }
+  }
+  
   ngOnDestroy() {
     if (this.logoutUserFromPreviousSessionSubscription) {
       this.logoutUserFromPreviousSessionSubscription.unsubscribe();

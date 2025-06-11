@@ -58,8 +58,14 @@ export class loginService {
       .map(this.extractData)
       .catch(this.handleError);
   }
-  public authenticateUser(uname: any, pwd: any, doLogout): Observable<any> {
-    return this._http.post(this._userAuthURL, { 'userName': uname, 'password': pwd,withCredentials: true, doLogout: doLogout })
+  public authenticateUser(uname: any, pwd: any, doLogout, captchaToken?:string): Observable<any> {
+    return this._http.post(this._userAuthURL, { 
+        'userName': uname, 
+        'password': pwd, 
+        withCredentials: true, 
+        doLogout: doLogout, 
+        ...(captchaToken ? { captchaToken: captchaToken } : {}) 
+    })
        .map(this.extractData)
        .catch(this.handleError);
   };
