@@ -60,7 +60,13 @@ export class loginService {
   }
 
   public authenticateUser(uname: string, pwd: string, doLogout: boolean, captchaToken?: string): Observable<any> {
-    const body: any = { userName: uname, password: pwd, doLogout };
+    const body: any = {
+      userName: uname,
+      password: pwd,
+      withCredentials: true,
+      doLogout: doLogout,
+    };
+    
     if (captchaToken) { body.captchaToken = captchaToken; }
 
     return this._http.post(this._userAuthURL, body)
