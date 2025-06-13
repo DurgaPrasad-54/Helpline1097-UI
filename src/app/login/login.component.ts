@@ -296,6 +296,10 @@ export class loginContentClass implements OnInit, OnDestroy {
       if(userLogOutRes && userLogOutRes.data.response) {
     this.loginservice
       .authenticateUser(this.userID, this.encryptPassword, doLogOut,this.enableCaptcha ? this.captchaToken : undefined)
+      .finally(() => {
+        this.resetCaptcha();
+        this.loading = false;
+      })
       .subscribe(
         (response: any) => {
           // console.log("response.Jwttoken",response)
@@ -372,7 +376,10 @@ export class loginContentClass implements OnInit, OnDestroy {
   }
   };
   errorCallback(error: any) {
-    if (error.status) {
+    if (error.status === 5002 || error.errorMessage === 'captcha validation failed') {
+      this.loginResult = error.errorMessage;
+      this.resetCaptcha();
+    }else if (error.status) {
       this.loginResult = error.errorMessage;
     } else {
       this.loginResult = 'Server seems to busy please try after some time';
@@ -403,6 +410,7 @@ export class loginContentClass implements OnInit, OnDestroy {
 
   onCaptchaResolved(token: string) {
     this.captchaToken = token;
+    this.loginResult = '';
   }
 
   resetCaptcha() {

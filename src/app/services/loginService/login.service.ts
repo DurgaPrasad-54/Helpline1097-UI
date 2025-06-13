@@ -58,17 +58,36 @@ export class loginService {
       .map(this.extractData)
       .catch(this.handleError);
   }
-  public authenticateUser(uname: any, pwd: any, doLogout, captchaToken?:string): Observable<any> {
-    return this._http.post(this._userAuthURL, { 
-        'userName': uname, 
-        'password': pwd, 
-        withCredentials: true, 
-        doLogout: doLogout, 
-        ...(captchaToken ? { captchaToken: captchaToken } : {}) 
-    })
-       .map(this.extractData)
-       .catch(this.handleError);
-  };
+
+  public authenticateUser(uname: string, pwd: string, doLogout: boolean, captchaToken?: string): Observable<any> {
+    const body: any = {
+      userName: uname,
+      password: pwd,
+      withCredentials: true,
+      doLogout: doLogout,
+    };
+    
+    if (captchaToken) { body.captchaToken = captchaToken; }
+
+    return this._http.post(this._userAuthURL, body)
+      .map((res: Response) => {
+        const json = res.json();
+        if (json.statusCode && json.statusCode !== 200) {
+          throw {
+            status: json.statusCode,
+            errorMessage: json.errorMessage || 'Unknown error'
+          };
+        }
+        return json.data;
+      })
+      .catch((err: any) => {
+        const payload = err.errorMessage
+          ? err
+          : (err.json ? err.json() : { errorMessage: err.toString() });
+        return Observable.throw(payload);
+      });
+  }
+
 
   public userLogOutFromPreviousSession(uname: any){
     return this._http.post(this._userLogoutPreviousSessionURL, { 'userName': uname })
