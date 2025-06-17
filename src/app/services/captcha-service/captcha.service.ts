@@ -7,10 +7,7 @@ export class CaptchaService {
 
   loadScript(): Promise<void> {
     return new Promise((resolve, reject) => {
-      if (this.scriptLoaded) {
-        resolve(undefined);
-        return;
-      }
+      if (this.scriptLoaded) return resolve();
   
       const script = document.createElement('script');
       script.src = environment.captchaChallengeURL;
@@ -18,7 +15,7 @@ export class CaptchaService {
       script.defer = true;
       script.onload = () => {
         this.scriptLoaded = true;
-        resolve(undefined);
+        resolve();
       };
       script.onerror = (event) => {
         this.scriptLoaded = false;
