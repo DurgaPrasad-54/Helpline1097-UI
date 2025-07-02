@@ -8,7 +8,6 @@ export class CaptchaService {
   loadScript(): Promise<void> {
     return new Promise((resolve, reject) => {
       if (this.scriptLoaded) return resolve();
-  
       const script = document.createElement('script');
       script.src = environment.captchaChallengeURL;
       script.async = true;

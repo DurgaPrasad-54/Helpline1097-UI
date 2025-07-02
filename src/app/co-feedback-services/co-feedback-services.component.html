@@ -170,7 +170,7 @@
               <td>{{feedback.feedbackType?.feedbackTypeName}}</td>
               <td>{{feedback.createdBy}}</td>
               <td>{{feedback.feedbackStatus?.feedbackStatus}}</td>
-              <td>{{millisToUTCDate(feedback.createdDate)|date:'dd/MM/yyyy hh:mm a'}}</td>
+              <td>{{feedback.createdDate | date:'dd/MM/yyyy hh:mm a':'Asia/Kolkata'}}</td>
             </tr>
           </tbody>
           <tfoot>
