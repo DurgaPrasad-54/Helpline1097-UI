@@ -201,10 +201,11 @@ export class InterceptedHttp extends Http {
             } else {
                 this.router.navigate(['']);
                 if (this._count == 0) {
-                    this.message.alert(response.json().errorMessage, 'error');
                     this._count = this._count + 1;
                 }
-                this.message.alert(response.json().errorMessage, 'error');
+                if (!(response.json().data && response.json().data.response == "User successfully logged out")) {
+                    this.message.alert('Session expired, please login again', 'error');
+                }
                 this.authService.removeToken();
             }
             // this.router.navigate(['']);

@@ -42,7 +42,10 @@ const defaultEnvValues = {
   COMMON_API_BASE: '',
   ADMIN_API_BASE: '',
   HELPLINE1097_API_BASE: '',
-  TELEPHONY_SERVER: ''
+  TELEPHONY_SERVER: '',
+  SITE_KEY:'',
+  CAPTCHA_CHALLENGE_URL:'',
+  ENABLE_CAPTCHA: false,
 };
 
 // Generate output data

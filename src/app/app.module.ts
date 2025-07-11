@@ -245,10 +245,11 @@ import { GrievanceResolutionDetailsComponent } from './grievance-resolution-deta
 import {ComplaintDescriptionDialogComponent} from './complaint-description-dialog/complaint-description-dialog.component';
 import {GrievanceTransactionDetailsComponent} from './grievance-transaction-details/grievance-transaction-details.component';
 import { sessionStorageService } from './services/sessionStorageService/session-storage.service';
+import { CaptchaService } from './services/captcha-service/captcha.service';
+import { CaptchaComponent } from './captcha/captcha.component';
 // import { SetLanguageComponent } from './set-language.component';
 //for text mask
 // import { TextMaskModule } from 'angular2-text-mask';
-
 @NgModule({
   declarations: [
     AppComponent, dashboardContentClass, loginContentClass,
@@ -311,7 +312,8 @@ import { sessionStorageService } from './services/sessionStorageService/session-
     GrievanceOutboundWorklistComponent,
     GrievanceResolutionDetailsComponent,
     ComplaintDescriptionDialogComponent,
-    GrievanceTransactionDetailsComponent
+    GrievanceTransactionDetailsComponent,
+    CaptchaComponent
   ],
   imports: [
     BrowserModule,
@@ -447,7 +449,7 @@ import { sessionStorageService } from './services/sessionStorageService/session-
       provide: HTTP_INTERCEPTORS,
       useClass: TokenInterceptor,
       multi: true
-    }, CzentrixServices],
+    }, CzentrixServices,CaptchaService],
 
   bootstrap: [AppComponent]
 })
