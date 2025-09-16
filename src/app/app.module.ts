@@ -247,6 +247,8 @@ import {GrievanceTransactionDetailsComponent} from './grievance-transaction-deta
 import { sessionStorageService } from './services/sessionStorageService/session-storage.service';
 import { CaptchaService } from './services/captcha-service/captcha.service';
 import { CaptchaComponent } from './captcha/captcha.component';
+import { FeedbackPublicPageComponent } from './platform-feedback/pages/feedback-public-page/feedback-public-page-component';
+import { FeedbackModule } from './platform-feedback/feedback.module';
 // import { SetLanguageComponent } from './set-language.component';
 //for text mask
 // import { TextMaskModule } from 'angular2-text-mask';
@@ -334,6 +336,7 @@ import { CaptchaComponent } from './captcha/captcha.component';
     MdCardModule,
     ToasterModule,
     MdTabsModule,
+    FeedbackModule,
     // TextMaskModule,
     RouterModule.forRoot([
       {
@@ -404,6 +407,10 @@ import { CaptchaComponent } from './captcha/captcha.component';
         path: 'co',
         component: helpline1097CoComponent
       },
+      {
+        path: 'feedback',
+        component:FeedbackPublicPageComponent
+      },      
       // {
       //   path: 'InnerpageComponent/:mobileNumber/:callID/:callCategory',
       //   component: InnerpageComponent,
