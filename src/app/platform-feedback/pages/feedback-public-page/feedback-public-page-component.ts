@@ -31,7 +31,7 @@ type SL = "1097" | "104" | "AAM" | "MMU" | "TM" | "ECD";
   styleUrls: ['./feedback-public-page-component.css']
 })
 export class FeedbackPublicPageComponent {
-  serviceLine: SL = "AAM"; // default fallback
+  serviceLine: SL = "104"; // default fallback
 
   constructor(private route: ActivatedRoute) {
     // Check query param ?sl=
