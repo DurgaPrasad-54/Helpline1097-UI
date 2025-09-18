@@ -20,8 +20,11 @@
  * along with this program.  If not, see https://www.gnu.org/licenses/.
  */
 import { Injectable } from "@angular/core";
-import { HttpClient, HttpParams } from "@angular/common/http";
-import { Observable } from "rxjs";
+import { Http, Headers, RequestOptions, Response } from "@angular/http";
+import { Observable } from "rxjs/Observable";
+import "rxjs/add/operator/map";
+import "rxjs/add/operator/catch";
+import "rxjs/add/observable/throw";
 
 export type ServiceLine = "1097" | "104" | "AAM" | "MMU" | "TM" | "ECD";
 
@@ -39,25 +42,29 @@ export interface SubmitFeedbackRequest {
   comment?: string;
   isAnonymous: boolean; // true for logout flow
   serviceLine: ServiceLine;
+  // userId?: number | string; // optional when identified
 }
 
 @Injectable()
 export class FeedbackService {
-  private readonly apiBase = `${window.location.origin}/common-api`;
+  private readonly apiBase = (window && window.location ? window.location.origin : "") + "/common-api";
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: Http) {}
 
   listCategories(serviceLine: ServiceLine): Observable<CategoryDto[]> {
-    const params = new HttpParams().set("serviceLine", serviceLine);
-    return this.http.get<CategoryDto[]>(
-      `${this.apiBase}/platform-feedback/categories`,
-    );
+    const url = this.apiBase + "/platform-feedback/categories?serviceLine=" +
+      encodeURIComponent(serviceLine || "");
+    return this.http.get(url)
+      .map((res: Response) => res.json() as CategoryDto[])
+      .catch((err: any) => Observable.throw(err || "Server error"));
   }
 
-  submitFeedback(payload: SubmitFeedbackRequest) {
-    return this.http.post<{ id: string; createdAt?: string }>(
-      `${this.apiBase}/platform-feedback`,
-      payload,
-    );
+  submitFeedback(payload: SubmitFeedbackRequest): Observable<{ id: string; createdAt?: string }> {
+    const url = this.apiBase + "/platform-feedback";
+    const headers = new Headers({ "Content-Type": "application/json" });
+    const options = new RequestOptions({ headers });
+    return this.http.post(url, JSON.stringify(payload), options)
+      .map((res: Response) => res.json())
+      .catch((err: any) => Observable.throw(err || "Server error"));
   }
 }
