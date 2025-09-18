@@ -187,7 +187,7 @@ export class MultiRoleScreenComponent implements OnInit {
           this.sessionstorage.removeItem("setLanguage");
           this.dataSettingService.appLanguage="English";
           this.authService.removeToken();
-          this.router.navigate(['']);
+          this.router.navigate([['/feedback'], { queryParams: { sl: '1097' } }]);
           
           // this.socketService.logOut();
         },
@@ -199,7 +199,7 @@ export class MultiRoleScreenComponent implements OnInit {
           this.sessionstorage.removeItem("setLanguage");
           this.dataSettingService.appLanguage="English"; 
           this.authService.removeToken();     
-          this.router.navigate(['']);
+          this.router.navigate([['/feedback'], { queryParams: { sl: '1097' } }]);
           // this.socketService.logOut();
         }
       );

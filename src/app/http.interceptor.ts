@@ -37,7 +37,6 @@ import { AuthService } from './services/authentication/auth.service';
 import { ConfirmationDialogsService } from './services/dialog/confirmation.service';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/throw'
-import { observeOn } from 'rxjs/operator/observeOn';
 import { sessionStorageService } from './services/sessionStorageService/session-storage.service';
 
 @Injectable()
@@ -62,7 +61,7 @@ export class InterceptedHttp extends Http {
         url = this.updateUrl(url);
         if (this.networkCheck()) {
             this.showLoader();
-            return super.get(url, this.getRequestOptionArgs(options)).catch(this.onCatch)
+            return super.get(url, this.getRequestOptionArgs(options, url)).catch(this.onCatch)
                 .do((res: Response) => {
                     this.onSuccess(res);
                 }, (error: any) => {
@@ -81,7 +80,7 @@ export class InterceptedHttp extends Http {
         url = this.updateUrl(url);
         if (this.networkCheck()) {
             this.showLoader();
-            return super.post(url, body, this.getRequestOptionArgs(options)).catch(this.onCatch).do((res: Response) => {
+            return super.post(url, body, this.getRequestOptionArgs(options,url)).catch(this.onCatch).do((res: Response) => {
                 this.onSuccess(res);
             }, (error: any) => {
                 this.onError(error);
@@ -99,7 +98,7 @@ export class InterceptedHttp extends Http {
         url = this.updateUrl(url);
         if (this.networkCheck()) {
             this.showLoader();
-            return super.post(url, body, this.getRequestOptionArgs(options)).catch(this.onCatch).do((res: Response) => {
+            return super.post(url, body, this.getRequestOptionArgs(options,url)).catch(this.onCatch).do((res: Response) => {
                 this.onSuccess(res);
             }, (error: any) => {
                 this.onError(error);
@@ -115,7 +114,7 @@ export class InterceptedHttp extends Http {
 
     put(url: string, body: any, options?: RequestOptionsArgs): Observable<Response> {
         url = this.updateUrl(url);
-        return super.put(url, body, this.getRequestOptionArgs(options)).catch(this.onCatch).do((res: Response) => {
+        return super.put(url, body, this.getRequestOptionArgs(options,url)).catch(this.onCatch).do((res: Response) => {
             this.onSuccess(res);
         }, (error: any) => {
             this.onError(error);
@@ -127,7 +126,7 @@ export class InterceptedHttp extends Http {
 
     delete(url: string, options?: RequestOptionsArgs): Observable<Response> {
         url = this.updateUrl(url);
-        return super.delete(url, this.getRequestOptionArgs(options)).catch(this.onCatch).do((res: Response) => {
+        return super.delete(url, this.getRequestOptionArgs(options,url)).catch(this.onCatch).do((res: Response) => {
             this.onSuccess(res);
         }, (error: any) => {
             this.onError(error);
@@ -147,7 +146,7 @@ export class InterceptedHttp extends Http {
         }
         return url;
     }
-    private getRequestOptionArgs(options?: RequestOptionsArgs): RequestOptionsArgs {
+    private getRequestOptionArgs(options?: RequestOptionsArgs, url?: string): RequestOptionsArgs {
         if (options == null) {
             options = new RequestOptions();
         }
@@ -171,13 +170,22 @@ export class InterceptedHttp extends Http {
     //         Jwt_token = cvalue;
             
     //     }
-        let authToken:any;
-        if (sessionStorage.getItem('authToken')) {
-            authToken= sessionStorage.getItem('authToken');
+        // Determine whether we should skip attaching Authorization header
+        const skipAuth = url && url.indexOf('platform-feedback') !== -1;
+
+        let authToken: any;
+        if (!skipAuth && sessionStorage.getItem('authToken')) {
+            authToken = sessionStorage.getItem('authToken');
         }
+
         options.headers.append('Content-Type', 'application/json');
         options.headers.append('Access-Control-Allow-Origin', '*');
-        options.headers.append('Authorization', authToken);
+
+        // Only append Authorization if not skipping
+        if (!skipAuth && authToken) {
+            options.headers.append('Authorization', authToken);
+        }
+
         // options.headers.append('Jwttoken', Jwt_token);
         return options;
     }
