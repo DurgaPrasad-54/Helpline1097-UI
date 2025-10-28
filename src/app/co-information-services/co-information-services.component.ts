@@ -154,6 +154,11 @@ export class CoInformationServicesComponent implements OnInit {
     this.categoryList = response;
   }
 
+  EnabledGetDetails() {
+    this.getDetailsFlag = true;
+    this.enableFileDetails=false;
+  }
+  
   GetSubCategories(id: any) {
     this.symptomSubCategory=null;
     // console.log('symcatid',this.symptomCategory);
