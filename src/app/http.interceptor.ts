@@ -176,7 +176,7 @@ export class InterceptedHttp extends Http {
             authToken= sessionStorage.getItem('authToken');
         }
         options.headers.append('Content-Type', 'application/json');
-        options.headers.append('Access-Control-Allow-Origin', '*');
+        // options.headers.append('Access-Control-Allow-Origin', '*');
         options.headers.append('Authorization', authToken);
         // options.headers.append('Jwttoken', Jwt_token);
         return options;
