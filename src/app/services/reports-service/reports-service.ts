@@ -40,7 +40,7 @@ export class ReportsService {
  
   headers = new Headers(
     {'Content-Type': 'application/json',
-    'Access-Control-Allow-Origin': '*',
+    // 'Access-Control-Allow-Origin': '*',
     'Authorization': this.authService.getToken()
   }
    );

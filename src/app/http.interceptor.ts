@@ -179,13 +179,8 @@ export class InterceptedHttp extends Http {
         }
 
         options.headers.append('Content-Type', 'application/json');
-        options.headers.append('Access-Control-Allow-Origin', '*');
-
-        // Only append Authorization if not skipping
-        if (!skipAuth && authToken) {
-            options.headers.append('Authorization', authToken);
-        }
-
+        // options.headers.append('Access-Control-Allow-Origin', '*');
+        options.headers.append('Authorization', authToken);
         // options.headers.append('Jwttoken', Jwt_token);
         return options;
     }
