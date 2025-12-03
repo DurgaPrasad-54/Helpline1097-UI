@@ -65,14 +65,23 @@
  
   </div>
   <footer class="footer noprint">
-    <div class="col-sm-4 col-xs-4">
+    <div class="col-sm-3 col-xs-3">
       <span class="footer-text footer-text-height">{{currentLanguageSet?.poweredByWipro}}</span>
     </div>
-    <div class="col-sm-4 col-xs-4">
+    <div class="col-sm-3 col-xs-3">
       <p class="footer-text t-a-c footer-text-height">2017
         <md-icon color="" class="copyright_icon">copyright</md-icon> PSMRI</p>
     </div>
-    <div class="col-sm-4 col-xs-4" >
+    <div class="col-sm-3 col-xs-3" style="cursor: pointer"
+    [routerLink]="['/feedback']"
+    [queryParams]="{ sl: '1097' }"
+    role="link">
+      <p class="footer-text t-a-c footer-text-height" style="display: flex;justify-content: flex-end;">
+        <md-icon color="" class="mail_icon" style="vertical-align: bottom; font-size: middle; margin-right: 2%; margin-top: 4px;">mail_icon</md-icon>
+        {{currentLanguageSet?.platform_feedback?.feedback || "Feedback"}}
+       </p>
+    </div>
+    <div class="col-sm-3 col-xs-3" >
       <button *ngIf="(hideBar && (id != undefined || id != null))" md-raised-button type="button" color="primary" class="footer-height pull-right" (click)="toggleBar()">CZentrix</button>
     </div>
   </footer>
