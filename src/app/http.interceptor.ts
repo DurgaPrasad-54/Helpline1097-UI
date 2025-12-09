@@ -27,12 +27,11 @@
 * Advantage : Used to remove the code duplication
 */
 
-import { Inject, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { ConnectionBackend, RequestOptions, Request, RequestOptionsArgs, Response, Http, Headers } from '@angular/http';
 import { BehaviorSubject, Observable } from 'rxjs/Rx';
-import { environment } from '../environments/environment';
 import { LoaderService } from './services/common/loader.service';
-import { ActivatedRoute, Router, Params } from '@angular/router';
+import { Router } from '@angular/router';
 import { AuthService } from './services/authentication/auth.service';
 import { ConfirmationDialogsService } from './services/dialog/confirmation.service';
 import 'rxjs/add/operator/catch';
@@ -211,13 +210,6 @@ export class InterceptedHttp extends Http {
                 }
                 this.authService.removeToken();
             }
-            // this.router.navigate(['']);
-            // // if (this._count == 0) {
-            // this.message.alert(response.json().errorMessage, 'error');
-            // // this._count = this._count + 1;
-            // // }
-            // // this.message.alert(response.json().errorMessage, 'error');
-            // this.authService.removeToken();
             return Observable.empty();
         }
         else if (response.json().statusCode === 5006) {
@@ -229,6 +221,13 @@ export class InterceptedHttp extends Http {
     }
     private onError(error: any) {
         this.hideLoader();
+        if (error.status === 401 || error.status === 403) {
+            this.message.alert('Your session has expired. Please login again.', 'error');
+            this.authService.removeToken();
+            sessionStorage.clear();
+            this.router.navigate(['']);
+            return error;
+        }
         return error;
     }
     private showLoader(): void {
@@ -255,7 +254,7 @@ export class InterceptedHttp extends Http {
             return true;
         }
     }
-    dologout: any;
+    dologout: any = false;
     logoutUserFromPreviousSession = new BehaviorSubject(this.dologout);
     logoutUserFromPreviousSessions$ =
         this.logoutUserFromPreviousSession.asObservable();
