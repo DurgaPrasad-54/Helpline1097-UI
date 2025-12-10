@@ -37,6 +37,8 @@ import { ConfirmationDialogsService } from './services/dialog/confirmation.servi
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/throw'
 import { sessionStorageService } from './services/sessionStorageService/session-storage.service';
+import { SetLanguageComponent } from "app/set-language.component";
+import { HttpServices } from "app/services/http-services/http_services.service";
 
 @Injectable()
 export class InterceptedHttp extends Http {
@@ -44,7 +46,7 @@ export class InterceptedHttp extends Http {
     onlineFlag: boolean = true;
     count = 0;
     _count = 0;
-
+    assignSelectedLanguageValue: any ;
 
     constructor(backend: ConnectionBackend, 
         defaultOptions: RequestOptions, 
@@ -52,8 +54,19 @@ export class InterceptedHttp extends Http {
         private router: Router, 
         private authService: AuthService, 
         private message: ConfirmationDialogsService, 
-        private sessionstorage: sessionStorageService) {
+        private sessionstorage: sessionStorageService,
+        private httpServices: HttpServices) {
         super(backend, defaultOptions);
+    }
+
+    assignSelectedLanguage() {
+        const getLanguageJson = new SetLanguageComponent(this.httpServices);
+        getLanguageJson.setLanguage();
+        this.assignSelectedLanguageValue = getLanguageJson.currentLanguageObject;
+    }
+
+    ngDoCheck() {
+        this.assignSelectedLanguage();
     }
 
     get(url: string, options?: RequestOptionsArgs): Observable<Response> {
