@@ -205,7 +205,7 @@ export class InterceptedHttp extends Http {
             return response;
         }
         else if (response.json().statusCode === 5002) {
-            if (response.json().errorMessage === 'You are already logged in,please confirm to logout from other device and login again') {
+            if (response.json().errorMessage === 'You are already logged in,please confirm to logout from other device and login again' || response.json().errorMessage === 'Invalid username or password') {
                 this.message
                     .confirm('info', response.json().errorMessage)
                     .subscribe((confirmResponse) => {
