@@ -30,6 +30,7 @@ import 'rxjs/add/operator/finally';
 import { sessionStorageService } from 'app/services/sessionStorageService/session-storage.service';
 import { HttpServices } from "app/services/http-services/http_services.service";
 import { SetLanguageComponent } from "app/set-language.component";
+import { Router } from "@angular/router";
 
 @Component({
   selector: 'app-feedback-dialog',
@@ -66,7 +67,8 @@ export class FeedbackDialogComponent implements OnInit {
     private fb: FormBuilder,
     private api: FeedbackService,
     private sessionStorage: sessionStorageService,
-    public httpService: HttpServices
+    public httpService: HttpServices,
+    public router: Router,
   ) {}
 
   ngOnInit() {
@@ -95,10 +97,10 @@ export class FeedbackDialogComponent implements OnInit {
     this.api.listCategories(this.serviceLine).subscribe({
       next: (list) => {
         this.categories = (list || []).filter(
-          (c: any) => (c as any).active ?? true
+          (c: any) => (c as any).active || true
         );
         this.showCategory = this.categories.length > 0;
-        const def = this.categories[0]?.slug || this.defaultCategorySlug || "";
+        const def = this.categories[0].slug || this.defaultCategorySlug || "";
         if (def) this.form.controls.categorySlug.setValue(def);
       },
       error: () => (this.error = "Could not load categories."),
@@ -123,6 +125,10 @@ export class FeedbackDialogComponent implements OnInit {
   formInvalidForNow(): boolean {
     // require rating >=1 and category selected
     return this.form.invalid;
+  }
+
+  login() {
+    this.router.navigate(["/"]);
   }
 
   submit() {
@@ -156,19 +162,19 @@ export class FeedbackDialogComponent implements OnInit {
       .finally(() => (this.submitting = false))
       .subscribe({
         next: (res) => {
-          this.successId = res?.id || "submitted";
+          this.successId = res.id || "submitted";
           // reset form but keep identity default
           this.form.reset({
             rating: 0,
-            categorySlug: this.categories[0]?.slug ?? "",
+            categorySlug: this.categories[0].slug || "",
             comment: "",
             isAnonymous: this.isLoggedIn ? true : true,
           });
         },
         error: (e) => {
-          if (e?.status === 429) {
+          if (e.status === 429) {
             this.error = "Too many attempts. Try later.";
-          } else if (e?.error?.error) {
+          } else if (e.error.error) {
             this.error = e.error.error;
           } else {
             this.error = "Submission failed.";
