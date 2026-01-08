@@ -85,9 +85,9 @@
   "protractor": "5.1.2",
   "ts-node": "3.3.0",
   "tslint": "5.7.0",
-  "typescript": "2.4.0",
-  "xlsx": "0.13.0",
-  "uglify-js": "2.8.29"
+  "typescript": "^3.9.10",
+  "uglify-js": "2.8.29",
+  "xlsx": "0.13.0"
  },
  "resolutions": {
   "@types/geojson": "7946.0.8"
