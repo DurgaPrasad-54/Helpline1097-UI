@@ -133,7 +133,7 @@ export class AuthorizationWrapper extends Http {
             options.headers = new Headers();
         }
         options.headers.append('Content-Type', 'application/json');
-        options.headers.append('Access-Control-Allow-Origin', '*');
+        // options.headers.append('Access-Control-Allow-Origin', '*');
         options.headers.append('Authorization', this.authService.getToken());
         return options;
     }

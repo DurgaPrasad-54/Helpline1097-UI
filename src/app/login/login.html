@@ -55,10 +55,17 @@
     <div class="col-sm-4 col-xs-4">
       <span class="footer-text footer-text-height">Powered by: WIPRO</span>
     </div>
+    
     <div class="col-sm-4 col-xs-4">
       <p class="footer-text t-a-c footer-text-height">2017
         <md-icon color="" class="copyright_icon">copyright</md-icon> PSMRI</p>
     </div>
-    <div class="col-sm-4 col-xs-4">
+    <div class="col-sm-4 col-xs-4" style="cursor: pointer"
+    [routerLink]="['/feedback']"
+    [queryParams]="{ sl: '1097' }"
+    role="link">
+      <p class="footer-text t-a-c footer-text-height" style="display: flex;justify-content: flex-end;">
+        <md-icon color="" class="mail_icon" style="vertical-align: middle; font-size: medium; margin-right: 2%; margin-top: 4px;" >mail_icon</md-icon>
+         Feedback </p>
     </div>
 </footer>
